@@ -110,7 +110,7 @@ public class PlayerMove : MonoBehaviour
             moveInputRot = MoveInputRot.leftDown;
         }
 
-
+        MoveGo = Vector3.zero;
 
         if (!isMovable) { return; }
 

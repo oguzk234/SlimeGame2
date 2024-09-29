@@ -88,6 +88,7 @@ public class PlayerCollision : MonoBehaviour
 
 
             case PlayerMove.MoveInputRot.rightUp:
+
                 Debug.DrawRay(transform.position, Vector2.right * RayRangeHorizontal, Color.red);
                 Debug.DrawRay((Vector2)transform.position + Vector2.up * (RayRangeHorizontal + (AltRaysHorizontalPlus * 0.0675f)), Vector2.right * RayRangeHorizontal, Color.green);
                 Debug.DrawRay((Vector2)transform.position + -Vector2.up * (RayRangeHorizontal + (AltRaysHorizontalPlus * 0.0675f)), Vector2.right * RayRangeHorizontal, Color.blue);
@@ -112,8 +113,8 @@ public class PlayerCollision : MonoBehaviour
                 Debug.DrawRay((Vector2)transform.position + -Vector2.right * (RayRangeVertical + (AltRaysVerticalPlus * 0.0675f)), Vector2.down * RayRangeVertical, Color.blue);
 
                 hit1 = Physics2D.Raycast(transform.position, Vector2.right, RayRangeHorizontal);
-                hit2 = Physics2D.Raycast(transform.position, Vector2.down, RayRangeVertical);
-                hit3 = Physics2D.Raycast(transform.position, playerMove.rightDown, RayRangeCross);
+                hit2 = Physics2D.Raycast((Vector2)transform.position + Vector2.up * (RayRangeHorizontal + (AltRaysHorizontalPlus * 0.0675f)), Vector2.right, RayRangeHorizontal);
+                hit3 = Physics2D.Raycast((Vector2)transform.position + -Vector2.up * (RayRangeHorizontal + (AltRaysHorizontalPlus * 0.0675f)), Vector2.right, RayRangeHorizontal);
                 hit4 = Physics2D.Raycast(transform.position, Vector2.down, RayRangeVertical);
                 hit5 = Physics2D.Raycast((Vector2)transform.position + Vector2.right * (RayRangeVertical + (AltRaysVerticalPlus * 0.0675f)), Vector2.down, RayRangeVertical);
                 hit6 = Physics2D.Raycast((Vector2)transform.position + -Vector2.right * (RayRangeVertical + (AltRaysVerticalPlus * 0.0675f)), Vector2.down, RayRangeVertical);
