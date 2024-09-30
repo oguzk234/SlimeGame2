@@ -179,6 +179,7 @@ MonoBehaviour:
   isMovable: 1
   isMoveInputGetting: 1
   animObj: {fileID: 1690918123}
+  currentAnimationPercent: 0
   moveInputRot: 0
   rightUp: {x: 1, y: 1}
   rightDown: {x: 1, y: -1}
@@ -196,14 +197,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc70110b8e09a34590d1acfd082b06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charSizeHorizontal: 14
-  charSizeVertical: 11
+  charSizeHorizontal: 13
+  charSizeVertical: 10
   charSizeCross: 10
   RayRangeHorizontal: 0.945
   RayRangeVertical: 0.7425
   AltRaysHorizontalPlus: -4
   AltRaysVerticalPlus: 2
   RayRangeCross: 0.6075
+  RayRangeUpPlus: -9
   autoRaySize: 1
 --- !u!95 &463001284
 Animator:
