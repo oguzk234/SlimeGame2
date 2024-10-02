@@ -25,12 +25,31 @@ public class DialogManager : MonoBehaviour
     public Color PPSlimeTextColor;
     public TMP_FontAsset PPSlimeFontAsset;
 
+    [Header("PPWife")]
+    public string PPWifeName;
+    public Sprite PPWifeSprite;
+    public Sprite PPWifeBoxSprite;
+    public Color PPWifeBoxColor = new Color(131, 2312, 95);
+    public Color PPWifeTextColor;
+    public TMP_FontAsset PPWifeFontAsset;
+
+    [Header("PPMole")]
+    public string PPMoleName;
+    public Sprite PPMoleSprite;
+    public Sprite PPMoleBoxSprite;
+    public Color PPMoleBoxColor = new Color(131, 2312, 95);
+    public Color PPMoleTextColor;
+    public TMP_FontAsset PPMoleFontAsset;
+
     [Header("ReadyPersonas")]
     public DialogPersona PPSlime;
+    public DialogPersona PPWife;
+    public DialogPersona PPMole;
 
 
     [Header("ReadyDialogues")]
     public List<TalkLine> DDialog1 = new List<TalkLine>();
+    public List<TalkLine> DDialog2 = new List<TalkLine>();
 
 
 
@@ -61,14 +80,20 @@ public class DialogManager : MonoBehaviour
     private void InitializeDialogPersonas()
     {
         PPSlime = new DialogPersona(PPSlimeName, PPSlimeSprite, PPSlimeBoxSprite, PPSlimeBoxColor, PPSlimeTextColor,PPSlimeFontAsset);
+        PPWife = new DialogPersona(PPWifeName, PPWifeSprite, PPWifeBoxSprite, PPWifeBoxColor, PPWifeTextColor, PPWifeFontAsset);
+        PPMole = new DialogPersona(PPMoleName, PPMoleSprite, PPMoleBoxSprite, PPMoleBoxColor, PPMoleTextColor, PPMoleFontAsset);
     }
 
     private void InitializeDialogs()
     {
         DDialog1.Add(new TalkLine("Merhaba!", PPSlime));
         DDialog1.Add(new TalkLine("Nasilsin?", PPSlime));
+        DDialog1.Add(new TalkLine("Iyiyim", PPWife));
+        DDialog1.Add(new TalkLine("Iyiyim TERS", PPWife,true));
         DDialog1.Add(new TalkLine("ZOOOORT?", PPSlime));
         DDialog1.Add(new TalkLine("Gorusmek uzere!", PPSlime));
+        DDialog1.Add(new TalkLine("zortirizort", PPMole,true));
+        DDialog1.Add(new TalkLine("H-h-h-hello", PPMole));
     }
 
 
@@ -109,12 +134,14 @@ public class DialogManager : MonoBehaviour
         if (talkLine.Direction)
         {
             MessageBoxArea.GetComponent<SpriteRenderer>().flipX = true;
-            MessageBoxImage.GetComponent<SpriteRenderer>().flipY = true;
+            MessageBoxImage.GetComponent<SpriteRenderer>().flipX = true;
+            MessageBoxText.GetComponent<RectTransform>().pivot = new Vector2(0.75f, 0.5f);
         }
         else
         {
             MessageBoxArea.GetComponent<SpriteRenderer>().flipX = false;
-            MessageBoxImage.GetComponent<SpriteRenderer>().flipY = false;
+            MessageBoxImage.GetComponent<SpriteRenderer>().flipX = false;
+            MessageBoxText.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
         }
     }
 
@@ -149,7 +176,7 @@ public class TalkLine
 
 
         if (fontAsset == null)
-            fontAsset = persona.FontAsset;
+            FontAsset = persona.FontAsset;
         else FontAsset = fontAsset;
 
     }
