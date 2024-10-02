@@ -23,6 +23,7 @@ public class DialogManager : MonoBehaviour
     public Sprite PPSlimeBoxSprite;
     public Color PPSlimeBoxColor = new Color(131, 2312, 95);
     public Color PPSlimeTextColor;
+    public TMP_FontAsset PPSlimeFontAsset;
 
     [Header("ReadyPersonas")]
     public DialogPersona PPSlime;
@@ -40,21 +41,59 @@ public class DialogManager : MonoBehaviour
         InitializeDialogPersonas();
         InitializeDialogs();
     }
-    
+
+    private void Update()
+    {
+        DialogDebug();
+    }
+    private void DialogDebug()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            ReadTalkSet(DDialog1);
+            foreach(TalkLine talkLine in DDialog1)
+            {
+                print(talkLine.Text);
+            }
+        }
+    }
+
     private void InitializeDialogPersonas()
     {
-        PPSlime = new DialogPersona(PPSlimeName, PPSlimeSprite, PPSlimeBoxSprite, PPSlimeBoxColor, PPSlimeTextColor);
+        PPSlime = new DialogPersona(PPSlimeName, PPSlimeSprite, PPSlimeBoxSprite, PPSlimeBoxColor, PPSlimeTextColor,PPSlimeFontAsset);
     }
 
     private void InitializeDialogs()
     {
-
+        DDialog1.Add(new TalkLine("Merhaba!", PPSlime));
+        DDialog1.Add(new TalkLine("Nasilsin?", PPSlime));
+        DDialog1.Add(new TalkLine("ZOOOORT?", PPSlime));
+        DDialog1.Add(new TalkLine("Gorusmek uzere!", PPSlime));
     }
+
+
+
+
+
 
     public void ReadTalkSet(List<TalkLine> talkList)
     {
-
+        StartCoroutine(ReadTalkSetCoroutine(talkList));
     }
+    IEnumerator ReadTalkSetCoroutine(List<TalkLine> talkList)
+    {
+        for (int i = 0; i < talkList.Count; i++)
+        {
+            ReadTalkLine(talkList[i]);
+            yield return new WaitForSeconds(0.01f);  //OLMAZSA DÝYALOG ATLIYO
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        }
+
+        MessageBox.SetActive(false);
+    }
+
+
+
 
     public void ReadTalkLine(TalkLine talkLine)
     {
@@ -65,16 +104,17 @@ public class DialogManager : MonoBehaviour
         MessageBoxText.text = talkLine.Text;
         MessageBoxText.color = talkLine.TextColor;
         MessageBoxArea.color = talkLine.BoxColor;
+        MessageBoxText.font = talkLine.FontAsset;
 
         if (talkLine.Direction)
         {
-            MessageBoxArea.transform.localScale = Vector3.back;
-            MessageBoxImage.transform.localScale = Vector3.back;
+            MessageBoxArea.GetComponent<SpriteRenderer>().flipX = true;
+            MessageBoxImage.GetComponent<SpriteRenderer>().flipY = true;
         }
         else
         {
-            MessageBoxArea.transform.localScale = Vector3.forward;
-            MessageBoxImage.transform.localScale = Vector3.forward;
+            MessageBoxArea.GetComponent<SpriteRenderer>().flipX = false;
+            MessageBoxImage.GetComponent<SpriteRenderer>().flipY = false;
         }
     }
 
@@ -89,8 +129,9 @@ public class TalkLine
     public bool Direction;
     public Color BoxColor;
     public Color TextColor;
+    public TMP_FontAsset FontAsset;
 
-    public TalkLine(string text,DialogPersona persona,bool direction = default,Color boxColor = default,Color textColor = default)
+    public TalkLine(string text,DialogPersona persona,bool direction = default,Color boxColor = default,Color textColor = default,TMP_FontAsset fontAsset = null)
     {
         Persona = persona;
         Text = text;
@@ -98,9 +139,18 @@ public class TalkLine
 
         if (boxColor == default(Color))
             BoxColor = persona.BoxColor;
+        else BoxColor = boxColor;
+
 
         if (textColor == default(Color))
             TextColor = persona.TextColor;
+        else TextColor = textColor;
+
+
+
+        if (fontAsset == null)
+            fontAsset = persona.FontAsset;
+        else FontAsset = fontAsset;
 
     }
 }
@@ -112,14 +162,16 @@ public class DialogPersona
     public Sprite BoxSprite;
     public Color BoxColor; //USTTEN CEKÝLECEK
     public Color TextColor; //USTTEN CEKÝLECEK
+    public TMP_FontAsset FontAsset;
 
-    public DialogPersona(string personaName,Sprite personaSprite,Sprite boxSprite,Color boxColor,Color textColor)
+    public DialogPersona(string personaName,Sprite personaSprite,Sprite boxSprite,Color boxColor,Color textColor,TMP_FontAsset fontAsset)
     {
         PersonaName = personaName;
         PersonaSprite = personaSprite;
         BoxSprite = boxSprite;
         BoxColor = boxColor;
         TextColor = textColor;
+        FontAsset = fontAsset;
     }
 
 }
