@@ -7,6 +7,7 @@ public class BlockData : MonoBehaviour
 {
     public bool isBlocking;
 
+
     public void MakePixelPerfect()
     {
         // Her ekseni ayrý ayrý en yakýn grid boyutuna yuvarla

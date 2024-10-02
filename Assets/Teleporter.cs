@@ -4,13 +4,23 @@ using UnityEngine;
 
 [RequireComponent(typeof(BlockData))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class Teleporter : MonoBehaviour
+public class Teleporter : MonoBehaviour,IInteractable
 {
     public bool isActive;
-    public Teleporter ToTp;
+    public Vector2 TpPos;
+
+
+    public void Interact()
+    {
+        Teleport();
+    }
 
     public void Teleport()
     {
-        PlayerMove.Instance.gameObject.transform.position = ToTp.transform.position;
+        if (isActive)
+        {
+            PlayerMove.Instance.gameObject.transform.position = TpPos;
+        }
+
     }
 }

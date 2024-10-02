@@ -7,7 +7,7 @@ public class CollectibleItem : MonoBehaviour, IInteractable
     public void Interact()
     {
         print("ELMA ALINDI");
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
     }
 
 

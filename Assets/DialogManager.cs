@@ -11,8 +11,8 @@ public class DialogManager : MonoBehaviour
 
     [Header("MessageBox")]
     public GameObject MessageBox;
-    public SpriteRenderer MessageBoxArea;
-    public SpriteRenderer MessageBoxImage;
+    public Image MessageBoxArea;  // 24 e 13.5 default boyutu
+    public Image MessageBoxImage;
     public TextMeshProUGUI MessageBoxText;
 
 
@@ -93,7 +93,7 @@ public class DialogManager : MonoBehaviour
         DDialog1.Add(new TalkLine("ZOOOORT?", PPSlime));
         DDialog1.Add(new TalkLine("Gorusmek uzere!", PPSlime));
         DDialog1.Add(new TalkLine("zortirizort", PPMole,true));
-        DDialog1.Add(new TalkLine("H-h-h-hello", PPMole));
+        DDialog1.Add(new TalkLine("E", PPMole));
     }
 
 
@@ -133,15 +133,18 @@ public class DialogManager : MonoBehaviour
 
         if (talkLine.Direction)
         {
-            MessageBoxArea.GetComponent<SpriteRenderer>().flipX = true;
-            MessageBoxImage.GetComponent<SpriteRenderer>().flipX = true;
+            //MessageBoxArea.GetComponent<SpriteRenderer>().flipX = true;
+            //MessageBoxImage.GetComponent<SpriteRenderer>().flipX = true;
+            MessageBoxArea.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
+            MessageBoxImage.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
             MessageBoxText.GetComponent<RectTransform>().pivot = new Vector2(0.75f, 0.5f);
         }
         else
         {
-            MessageBoxArea.GetComponent<SpriteRenderer>().flipX = false;
-            MessageBoxImage.GetComponent<SpriteRenderer>().flipX = false;
+
             MessageBoxText.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+            MessageBoxArea.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            MessageBoxImage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
     }
 
