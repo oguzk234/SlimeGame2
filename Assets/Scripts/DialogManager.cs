@@ -82,10 +82,19 @@ public class DialogManager : MonoBehaviour
     public Color PPHappySlimeTextColor;
     public TMP_FontAsset PPHappySlimeFontAsset;
 
+    [Header("PPGutsSlime")]
+    public string PPGutsSlimeName;
+    public Sprite PPGutsSlimeSprite;
+    public Sprite PPGutsSlimeBoxSprite;
+    public Sprite PPGutsSlimeBoxExtraSprite;
+    public Color PPGutsSlimeBoxColor;
+    public Color PPGutsSlimeTextColor;
+    public TMP_FontAsset PPGutsSlimeFontAsset;
+
 
     [Header("ReadyPersonas")]
     public List<DialogPersona> PersonaList = new List<DialogPersona>();
-    public enum Persona { PPSlime, PPWife, PPMole, PPSign,PPMoustacheSlime,PPLambSlime,PPHappySlime }
+    public enum Persona { PPSlime, PPWife, PPMole, PPSign,PPMoustacheSlime,PPLambSlime,PPHappySlime,PPGutsSlime }
 
     public DialogPersona PPSlime;
     public DialogPersona PPWife;
@@ -94,6 +103,7 @@ public class DialogManager : MonoBehaviour
     public DialogPersona PPMoustacheSlime;
     public DialogPersona PPLambSlime;
     public DialogPersona PPHappySlime;
+    public DialogPersona PPGutsSlime;
 
 
     [Header("ReadyDialogues")]
@@ -138,21 +148,21 @@ public class DialogManager : MonoBehaviour
         PPMoustacheSlime = new DialogPersona(PPMoustacheSlimeName, PPMoustacheSlimeSprite, PPMoustacheSlimeBoxSprite, PPMoustacheSlimeBoxExtraSprite, PPMoustacheSlimeBoxColor, PPMoustacheSlimeTextColor, PPMoustacheSlimeFontAsset, DefaultTalkBoxTextData);
         PPLambSlime = new DialogPersona(PPLambSlimeName, PPLambSlimeSprite, PPLambSlimeBoxSprite, PPLambSlimeBoxExtraSprite, PPLambSlimeBoxColor, PPLambSlimeTextColor, PPLambSlimeFontAsset, DefaultTalkBoxTextData);
         PPHappySlime = new DialogPersona(PPHappySlimeName, PPHappySlimeSprite, PPHappySlimeBoxSprite, PPHappySlimeBoxExtraSprite, PPHappySlimeBoxColor, PPHappySlimeTextColor, PPHappySlimeFontAsset, DefaultTalkBoxTextData);
+        PPGutsSlime = new DialogPersona(PPGutsSlimeName, PPGutsSlimeSprite, PPGutsSlimeBoxSprite, PPGutsSlimeBoxExtraSprite, PPGutsSlimeBoxColor, PPGutsSlimeTextColor, PPGutsSlimeFontAsset, DefaultTalkBoxTextData);
 
     }
 
     private void InitializeDialogs()
     {
-        DDialog1.Add(new TalkLine("Merhaba!", PPSlime));
         DDialog1.Add(new TalkLine("Nasilsin?", PPSlime));
         DDialog1.Add(new TalkLine("Iyiyim", PPWife));
         DDialog1.Add(new TalkLine("Iyiyim TERS", PPWife,true));
-        DDialog1.Add(new TalkLine("ZOOOORT?", PPSlime));
-        DDialog1.Add(new TalkLine("Gorusmek uzere!", PPSlime));
         DDialog1.Add(new TalkLine("zortirizort", PPMole,true));
         DDialog1.Add(new TalkLine("E", PPMole));
         DDialog1.Add(new TalkLine("AJAJAJ", PPLambSlime));
         DDialog1.Add(new TalkLine("ZIBAPWIJP", PPHappySlime));
+        DDialog1.Add(new TalkLine("ZIBAPWIJP", PPMoustacheSlime));
+        DDialog1.Add(new TalkLine("ZIBAPWIJP", PPGutsSlime));
     }
 
 
@@ -332,6 +342,9 @@ public class DialogPersona
 
             case DialogManager.Persona.PPHappySlime:
                 return DialogManager.Instance.PPHappySlime;
+
+            case DialogManager.Persona.PPGutsSlime:
+                return DialogManager.Instance.PPGutsSlime;
 
         }
 

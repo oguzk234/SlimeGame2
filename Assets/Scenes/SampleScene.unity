@@ -2282,6 +2282,13 @@ MonoBehaviour:
   PPHappySlimeBoxColor: {r: 0.21960784, g: 0.21960786, b: 0.38823533, a: 1}
   PPHappySlimeTextColor: {r: 0.3882353, g: 0.39607844, b: 0.21960784, a: 1}
   PPHappySlimeFontAsset: {fileID: 11400000, guid: ddb4a41e7d3a93f4ba5c87d760cc5e35, type: 2}
+  PPGutsSlimeName: Guts Slime
+  PPGutsSlimeSprite: {fileID: 21300000, guid: fba79ca2555a8a64e93e8211837ca4c6, type: 3}
+  PPGutsSlimeBoxSprite: {fileID: 21300000, guid: 157b74e166dd44e4793dee92aa1022e5, type: 3}
+  PPGutsSlimeBoxExtraSprite: {fileID: 21300000, guid: be62c8095fc9da540bbd2a50d4031f9f, type: 3}
+  PPGutsSlimeBoxColor: {r: 1, g: 1, b: 1, a: 1}
+  PPGutsSlimeTextColor: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
+  PPGutsSlimeFontAsset: {fileID: 11400000, guid: ddb4a41e7d3a93f4ba5c87d760cc5e35, type: 2}
   DDialog1: []
   DDialog2: []
 --- !u!4 &1043542230
