@@ -14,6 +14,7 @@ public class DialogManager : MonoBehaviour
     public GameObject MessageBox;
     public Image MessageBoxArea;  // 24 e 13.5 default boyutu
     public Image MessageBoxImage;
+    public Image MessageBoxExtraImage;
     public TextMeshProUGUI MessageBoxText;
 
 
@@ -22,6 +23,7 @@ public class DialogManager : MonoBehaviour
     public string PPSlimeName;
     public Sprite PPSlimeSprite;
     public Sprite PPSlimeBoxSprite;
+    public Sprite PPSlimeBoxExtraSprite;
     public Color PPSlimeBoxColor = new Color(131, 2312, 95);
     public Color PPSlimeTextColor;
     public TMP_FontAsset PPSlimeFontAsset;
@@ -30,6 +32,7 @@ public class DialogManager : MonoBehaviour
     public string PPWifeName;
     public Sprite PPWifeSprite;
     public Sprite PPWifeBoxSprite;
+    public Sprite PPWifeBoxExtraSprite;
     public Color PPWifeBoxColor = new Color(131, 2312, 95);
     public Color PPWifeTextColor;
     public TMP_FontAsset PPWifeFontAsset;
@@ -38,6 +41,7 @@ public class DialogManager : MonoBehaviour
     public string PPMoleName;
     public Sprite PPMoleSprite;
     public Sprite PPMoleBoxSprite;
+    public Sprite PPMoleBoxExtraSprite;
     public Color PPMoleBoxColor = new Color(131, 2312, 95);
     public Color PPMoleTextColor;
     public TMP_FontAsset PPMoleFontAsset;
@@ -46,19 +50,50 @@ public class DialogManager : MonoBehaviour
     public string PPSignName;
     public Sprite PPSignSprite;
     public Sprite PPSignBoxSprite;
+    public Sprite PPSignBoxExtraSprite;
     public Color PPSignBoxColor;
     public Color PPSignTextColor;
     public TMP_FontAsset PPSignFontAsset;
 
+    [Header("PPMoustacheSlime")]
+    public string PPMoustacheSlimeName;
+    public Sprite PPMoustacheSlimeSprite;
+    public Sprite PPMoustacheSlimeBoxSprite;
+    public Sprite PPMoustacheSlimeBoxExtraSprite;
+    public Color PPMoustacheSlimeBoxColor;
+    public Color PPMoustacheSlimeTextColor;
+    public TMP_FontAsset PPMoustacheSlimeFontAsset;
+
+    [Header("PPLambSlime")]
+    public string PPLambSlimeName;
+    public Sprite PPLambSlimeSprite;
+    public Sprite PPLambSlimeBoxSprite;
+    public Sprite PPLambSlimeBoxExtraSprite;
+    public Color PPLambSlimeBoxColor;
+    public Color PPLambSlimeTextColor;
+    public TMP_FontAsset PPLambSlimeFontAsset;
+
+    [Header("PPHappySlime")]
+    public string PPHappySlimeName;
+    public Sprite PPHappySlimeSprite;
+    public Sprite PPHappySlimeBoxSprite;
+    public Sprite PPHappySlimeBoxExtraSprite;
+    public Color PPHappySlimeBoxColor;
+    public Color PPHappySlimeTextColor;
+    public TMP_FontAsset PPHappySlimeFontAsset;
+
 
     [Header("ReadyPersonas")]
     public List<DialogPersona> PersonaList = new List<DialogPersona>();
-    public enum Persona { PPSlime, PPWife, PPMole, PPSign }
+    public enum Persona { PPSlime, PPWife, PPMole, PPSign,PPMoustacheSlime,PPLambSlime,PPHappySlime }
 
     public DialogPersona PPSlime;
     public DialogPersona PPWife;
     public DialogPersona PPMole;
     public DialogPersona PPSign;
+    public DialogPersona PPMoustacheSlime;
+    public DialogPersona PPLambSlime;
+    public DialogPersona PPHappySlime;
 
 
     [Header("ReadyDialogues")]
@@ -96,10 +131,14 @@ public class DialogManager : MonoBehaviour
 
     private void InitializeDialogPersonas()
     {
-        PPSlime = new DialogPersona(PPSlimeName, PPSlimeSprite, PPSlimeBoxSprite, PPSlimeBoxColor, PPSlimeTextColor,PPSlimeFontAsset, DefaultTalkBoxTextData);
-        PPWife = new DialogPersona(PPWifeName, PPWifeSprite, PPWifeBoxSprite, PPWifeBoxColor, PPWifeTextColor, PPWifeFontAsset,DefaultTalkBoxTextData);
-        PPMole = new DialogPersona(PPMoleName, PPMoleSprite, PPMoleBoxSprite, PPMoleBoxColor, PPMoleTextColor, PPMoleFontAsset,DefaultTalkBoxTextData);
-        PPSign = new DialogPersona(PPSignName, PPSignSprite, PPSignBoxSprite, PPSignBoxColor, PPSignTextColor, PPSignFontAsset, MiddleTalkBoxTextData);
+        PPSlime = new DialogPersona(PPSlimeName, PPSlimeSprite, PPSlimeBoxSprite, PPSlimeBoxExtraSprite, PPSlimeBoxColor, PPSlimeTextColor, PPSlimeFontAsset, DefaultTalkBoxTextData);
+        PPWife = new DialogPersona(PPWifeName, PPWifeSprite, PPWifeBoxSprite, PPWifeBoxExtraSprite, PPWifeBoxColor, PPWifeTextColor, PPWifeFontAsset, DefaultTalkBoxTextData);
+        PPMole = new DialogPersona(PPMoleName, PPMoleSprite, PPMoleBoxSprite, PPMoleBoxExtraSprite, PPMoleBoxColor, PPMoleTextColor, PPMoleFontAsset, DefaultTalkBoxTextData);
+        PPSign = new DialogPersona(PPSignName, PPSignSprite, PPSignBoxSprite, PPSignBoxExtraSprite, PPSignBoxColor, PPSignTextColor, PPSignFontAsset, MiddleTalkBoxTextData);
+        PPMoustacheSlime = new DialogPersona(PPMoustacheSlimeName, PPMoustacheSlimeSprite, PPMoustacheSlimeBoxSprite, PPMoustacheSlimeBoxExtraSprite, PPMoustacheSlimeBoxColor, PPMoustacheSlimeTextColor, PPMoustacheSlimeFontAsset, DefaultTalkBoxTextData);
+        PPLambSlime = new DialogPersona(PPLambSlimeName, PPLambSlimeSprite, PPLambSlimeBoxSprite, PPLambSlimeBoxExtraSprite, PPLambSlimeBoxColor, PPLambSlimeTextColor, PPLambSlimeFontAsset, DefaultTalkBoxTextData);
+        PPHappySlime = new DialogPersona(PPHappySlimeName, PPHappySlimeSprite, PPHappySlimeBoxSprite, PPHappySlimeBoxExtraSprite, PPHappySlimeBoxColor, PPHappySlimeTextColor, PPHappySlimeFontAsset, DefaultTalkBoxTextData);
+
     }
 
     private void InitializeDialogs()
@@ -112,6 +151,8 @@ public class DialogManager : MonoBehaviour
         DDialog1.Add(new TalkLine("Gorusmek uzere!", PPSlime));
         DDialog1.Add(new TalkLine("zortirizort", PPMole,true));
         DDialog1.Add(new TalkLine("E", PPMole));
+        DDialog1.Add(new TalkLine("AJAJAJ", PPLambSlime));
+        DDialog1.Add(new TalkLine("ZIBAPWIJP", PPHappySlime));
     }
 
 
@@ -156,6 +197,8 @@ public class DialogManager : MonoBehaviour
 
         MessageBoxArea.sprite = talkLine.Persona.BoxSprite;       //
         MessageBoxImage.sprite = talkLine.Persona.PersonaSprite;  //BU IKISI HARICI PERSONADAN CEKÝLMÝCEK
+        MessageBoxExtraImage.sprite = talkLine.Persona.BoxExtraSprite;
+        //if(talkLine.Persona.BoxExtraSprite != null) { MessageBoxExtraImage.sprite = talkLine.Persona.BoxExtraSprite; }
 
         MessageBoxText.text = talkLine.Text;
         MessageBoxText.color = talkLine.TextColor;
@@ -169,6 +212,7 @@ public class DialogManager : MonoBehaviour
             MessageBoxArea.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
             MessageBoxImage.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
             MessageBoxText.GetComponent<RectTransform>().pivot = new Vector2(0.75f, 0.5f);
+            MessageBoxExtraImage.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
         }
         else
         {
@@ -176,6 +220,7 @@ public class DialogManager : MonoBehaviour
             MessageBoxText.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
             MessageBoxArea.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             MessageBoxImage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            MessageBoxExtraImage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
 
 
@@ -240,16 +285,18 @@ public class DialogPersona
     public string PersonaName; //OPSIYONEL
     public Sprite PersonaSprite;
     public Sprite BoxSprite;
+    public Sprite BoxExtraSprite;
     public Color BoxColor; //USTTEN CEKÝLECEK
     public Color TextColor; //USTTEN CEKÝLECEK
     public TMP_FontAsset FontAsset;
     public TalkBoxTextData TalkBoxTextDataa;
 
-    public DialogPersona(string personaName,Sprite personaSprite,Sprite boxSprite,Color boxColor,Color textColor,TMP_FontAsset fontAsset,TalkBoxTextData talkBoxTextData)
+    public DialogPersona(string personaName,Sprite personaSprite,Sprite boxSprite, Sprite boxExtraSprite, Color boxColor,Color textColor,TMP_FontAsset fontAsset,TalkBoxTextData talkBoxTextData)
     {
         PersonaName = personaName;
         PersonaSprite = personaSprite;
         BoxSprite = boxSprite;
+        BoxExtraSprite = boxExtraSprite;
         BoxColor = boxColor;
         TextColor = textColor;
         FontAsset = fontAsset;
@@ -277,6 +324,14 @@ public class DialogPersona
             case DialogManager.Persona.PPSign:
                 return DialogManager.Instance.PPSign;
 
+            case DialogManager.Persona.PPMoustacheSlime:
+                return DialogManager.Instance.PPMoustacheSlime;
+
+            case DialogManager.Persona.PPLambSlime:
+                return DialogManager.Instance.PPLambSlime;
+
+            case DialogManager.Persona.PPHappySlime:
+                return DialogManager.Instance.PPHappySlime;
 
         }
 
