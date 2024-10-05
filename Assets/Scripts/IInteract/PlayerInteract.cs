@@ -18,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 //Debug.Log("PICKUP Ray hit: " + ray.collider.name);
 
-                if (DialogManager.Instance.isOnDialogue == true){ return; }   //KOSTEBEKLE DIALOG SORUNUNU COZDU BU WORTH
+                if (DialogManager.Instance.isOnDialogue == true || PlayerMove.Instance.isMoveInputGetting == false){ return; }   //KOSTEBEKLE DIALOG SORUNUNU COZDU BU WORTH
                 if(interactable != null) { interactable.Interact(); print("Interacted With " + ray.collider.name); }
             }
         }
