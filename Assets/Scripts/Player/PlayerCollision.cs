@@ -46,6 +46,7 @@ public class PlayerCollision : MonoBehaviour
 
         //float RayRange2X = RayRangeHorizontal * Mathf.Sqrt(2);
 
+        List<RaycastHit2D>hitList = new List<RaycastHit2D>();
         RaycastHit2D hit1 = default;  //YATAY
         RaycastHit2D hit2 = default;  //YATAY2sag
         RaycastHit2D hit3 = default;  //YATAY3sol
@@ -162,11 +163,36 @@ public class PlayerCollision : MonoBehaviour
                 break;
         }
 
+        if (hit1 != default && hit1.collider != null) { hitList.Add(hit1); }
+        if (hit2 != default && hit2.collider != null) { hitList.Add(hit2); }
+        if (hit3 != default && hit3.collider != null) { hitList.Add(hit3); }
+        if (hit4 != default && hit4.collider != null) { hitList.Add(hit4); }
+        if (hit5 != default && hit5.collider != null) { hitList.Add(hit5); }
+        if (hit6 != default && hit6.collider != null) { hitList.Add(hit6); }
+
+        
+        foreach(RaycastHit2D ray in hitList)
+        {
+            if (ray.collider.gameObject.TryGetComponent(out Teleporter teleporter))
+            {
+                if (teleporter.neededInteraction == false) { teleporter.TeleportNoInteraction(); }
+                //print("TP BULUNDU");  //CALISIYOR
+            }
+        }
+
+
+
+
+
+
+
+
+
 
         bool Dir1Safe = true;
         bool Dir2Safe = true;
 
-       
+
         if (hit1 != default && hit1.collider != null && hit1.collider.TryGetComponent(out BlockData BData1))
         {
             //Debug.Log("Ray hit: " + hit1.collider.name);

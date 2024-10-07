@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public GameObject CamObj;
-    public bool FollowingPlayer;
+    public static GameObject CamObj;
+    public static bool FollowingPlayer = true;
 
     public static MapLimits ActiveMapLimits;
-    public MapLimits StartMapLimits;
+    public MapLimits LastMapLimits;
 
 
     private void Awake()
     {
         CamObj = Camera.main.gameObject;
-        ActiveMapLimits = StartMapLimits;
+        ActiveMapLimits = LastMapLimits;
     }
+
+
     void LateUpdate()
     {
         if (FollowingPlayer)
@@ -37,14 +39,4 @@ public class CameraFollow : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public struct MapLimits
-{
-    public Vector3 Limit1;
-    public Vector3 Limit2;
-    public MapLimits(Vector2 LeftDownCorner, Vector2 RightTopCorner)
-    {
-        Limit1 = LeftDownCorner;
-        Limit2 = RightTopCorner;
-    }
-}
+

@@ -19,8 +19,18 @@ public class PlayerInventory : MonoBehaviour
     public Transform InventoryMenuBase;
 
     public GameObject InvUICursor;
-    public int CursorNo;
     public ItemBase SelectedItem;
+    public int CursorNo;
+
+    public int CursorNoSelection;
+    public bool isItemSelected;
+
+    [Header("SELECTED ITEM MENU")]
+    //public TextMeshProUGUI ItemNameText;
+    public GameObject SelectionMenuTop;
+    public TextMeshProUGUI SelectedItemInfoText;
+    public Image SelectedItemImage;
+
 
     private void Awake()
     {
@@ -40,6 +50,10 @@ public class PlayerInventory : MonoBehaviour
                 isInvOpen = true;
                 PlayerMove.Instance.isMoveInputGetting = false;
                 InventoryTopObj.SetActive(true);
+
+                isItemSelected = false;           //SELECTION MENU ILE ILGILI
+                SelectionMenuTop.SetActive(false);// 
+
                 UpdateInventoryUI();
             }
             else
@@ -84,20 +98,57 @@ public class PlayerInventory : MonoBehaviour
 
     private void InventoryControls()
     {
-        if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        if (!isItemSelected)
         {
-            SetInvCursor(CursorNo+1);
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                SetInvCursor(CursorNo + 1);
+            }
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                SetInvCursor(CursorNo - 1);
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            {
+                //SelectedItem.UseItem();
+                SelectionMenuTop.SetActive(true);
+                isItemSelected = true;
+                SetInvCursorSelection(CursorNoSelection);
+                UpdateSelectionUI();
+            }
         }
-        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+        else 
         {
-            SetInvCursor(CursorNo - 1);
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                SetInvCursorSelection(CursorNo + 1);
+            }
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                SetInvCursorSelection(CursorNo - 1);
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            {
+                if (CursorNoSelection == 0) {
+                    SelectedItem.UseItem();
+                    isItemSelected = false;
+                    SelectionMenuTop.SetActive(false);
+                    UpdateInventoryUI();
+                }
+                else 
+                {
+                    isItemSelected = false; 
+                    SelectionMenuTop.SetActive(false); 
+                    UpdateInventoryUI(); 
+                }
+            }
         }
 
 
-        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-        {
-            SelectedItem.UseItem();
-        }
     }
     private void SetInvCursor(int x)
     {
@@ -106,6 +157,27 @@ public class PlayerInventory : MonoBehaviour
 
         CursorNo = no;
         InvUICursor.GetComponent<RectTransform>().position = new Vector2(960 + (-5*4), 540 + ((-5 * 20) * no));
+        InvUICursor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
         SelectedItem = Inventory[no];
+    }
+    private void SetInvCursorSelection(int x)
+    {
+        int no = Mathf.Clamp(x, 0, 1);
+
+        CursorNoSelection = no;
+        RectTransform CursorRect = InvUICursor.GetComponent<RectTransform>();
+        CursorRect.rotation = Quaternion.Euler(0, 0, 90);
+
+        if(no == 0) { CursorRect.position = new Vector2(960 +172, 540 + -420); } else { CursorRect.position = new Vector2(960 + 500, 540 + -420); }
+
+    }
+    private void UpdateSelectionUI()
+    {
+        SelectedItemInfoText.text = SelectedItem.itemInfo;
+
+        Vector2 spriteSize = SelectedItem.itemSprite.rect.size;
+        //float pixelsPerUnit = SelectedItem.itemSprite.pixelsPerUnit;
+        SelectedItemImage.rectTransform.sizeDelta = spriteSize * 5;//1920x1080 e esitlemek icin  // / pixelsPerUnit;
+        SelectedItemImage.sprite = SelectedItem.itemSprite;
     }
 }

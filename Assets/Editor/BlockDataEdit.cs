@@ -15,5 +15,11 @@ public class BlockDataEdit : Editor
         {
             blockData.MakePixelPerfect();
         }
+
+        if (GUILayout.Button("GetLimits"))
+        {
+            MapLimits limits = blockData.GetLimits();
+            Debug.Log("Limit 1 = "+limits.Limit1.x + " / " + limits.Limit1.y + "  ||| Limit 2 = "+limits.Limit2.x + " / " + limits.Limit2.y);
+        }
     }
 }

@@ -7,9 +7,9 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour,IInteractable
 {
     public bool isActive;
-    public Vector2 TpPos;
+    public bool neededInteraction = true;
 
-    public MapLimits NextMapLimits;
+    public Area area;
 
 
     public void Interact()
@@ -19,12 +19,19 @@ public class Teleporter : MonoBehaviour,IInteractable
 
     public void Teleport()
     {
+        if (isActive && neededInteraction)
+        {
+            SceneManager.Instance.ProceedArea(area);
+            area.InitializeSpriteOverride();
+        }
+    }
+
+    public void TeleportNoInteraction()
+    {
         if (isActive)
         {
-            PlayerMove.Instance.gameObject.transform.position = TpPos;
-
-            CameraFollow.ActiveMapLimits = NextMapLimits;
+            SceneManager.Instance.ProceedArea(area);
+            area.InitializeSpriteOverride();
         }
-
     }
 }

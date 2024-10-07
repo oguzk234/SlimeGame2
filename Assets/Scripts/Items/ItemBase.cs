@@ -10,6 +10,7 @@ public class ItemBase
     public string itemName;
     public string itemInfo;
     //public Image itemImage;
+    public Sprite itemSprite;
 
 
     public virtual void UseItem()
