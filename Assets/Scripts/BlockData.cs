@@ -23,6 +23,13 @@ public class BlockData : MonoBehaviour
 
         transform.position = new Vector2(x, y);
     }
+    public static Vector2 ReturnPixelPerfectStatic(Vector2 vec2)
+    {
+        float x = Mathf.Round(vec2.x / 0.0625f) * 0.0625f;
+        float y = Mathf.Round(vec2.y / 0.0625f) * 0.0625f;
+
+        return new Vector2(x, y);
+    }
 
 
 

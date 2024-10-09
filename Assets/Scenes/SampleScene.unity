@@ -1095,6 +1095,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14edca1dd8138354e89467883f640fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OpenWorldActionComponents:
+  - {fileID: 463001288}
+  - {fileID: 463001286}
+  - {fileID: 463001283}
+  - {fileID: 463001282}
   MaxHealth: 100
   Health: -50
 --- !u!4 &472837743 stripped
@@ -3213,6 +3218,7 @@ GameObject:
   - component: {fileID: 1043542229}
   - component: {fileID: 1043542231}
   - component: {fileID: 1043542232}
+  - component: {fileID: 1043542233}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3339,11 +3345,121 @@ MonoBehaviour:
   fg1:
     enemy:
       sprite: {fileID: 21300000, guid: c8736132e31142d429535411a55641ad, type: 3}
-      HP: 100
-      DamageRandomExtra: 3
-      DamageBase: 10
+    enemyAttackMaxCombo: 0
+    enemyAttackMaxComboRange: 0
+    enemyAttackCDBase: 1
+    enemyAttackCDRange: 0
+    enemyAttackTime: 0.9
+    HP: 0
+    DamageRandomExtra: 0
+    DamageBase: 0
   FightScene: {fileID: 648206993}
   Fight1DodgeManagerPrefab: {fileID: 4159675672055656793, guid: f0daea29fcace4848b69d5d3d7d0e734, type: 3}
+  F1DStartingTime: 0
+  F1DDamageTakeCDMax: 0.8
+  F1DTimeBeforeTakeDamageAfterAttackSpawned: 0.35
+  F1DTimePercentBeforeTakeDamageAfterAttackSpawned: 0.3
+  AttackAnimUp: {x: -3, y: 0.5}
+  AttackAnimDown: {x: -3, y: -7.5}
+  AttackAnimRight: {x: 2, y: -5}
+  AttackAnimLeft: {x: -8, y: -5}
+  audioSourceTakeDamage: {fileID: 1043542233}
+--- !u!82 &1043542233
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043542228}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: bbc513467a69c364587fcf4ae14c56a4, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1094798104
 GameObject:
   m_ObjectHideFlags: 0

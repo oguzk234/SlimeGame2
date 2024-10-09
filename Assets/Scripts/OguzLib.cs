@@ -18,8 +18,6 @@ namespace OguzLib
             action();
         }
 
-
-
         public static List<T> GetRandomUniqueElements<T>(List<T> list, int numberOfElements)
         {
             // Eðer istenen eleman sayýsý listedeki eleman sayýsýndan büyükse, listeyi döner
@@ -50,6 +48,12 @@ namespace OguzLib
 
             return randomElements;
         }
+
+        public static float GetRandomNumber(float ValueBase,float ValueMaxRandomOffset)
+        {
+            return UnityEngine.Random.Range(ValueBase - ValueMaxRandomOffset, ValueBase + ValueMaxRandomOffset);
+        }
+
     }
 
     public static class SubObject
@@ -144,6 +148,41 @@ namespace OguzLib
             return new Color(r, g, b, alpha);
         }
         #endregion
+    }
+
+    public static class Vectors
+    {
+        public static Vector2[] VectorDirections4 = new Vector2[4]
+{
+            new Vector2(0, 1),
+            new Vector2(0, -1),
+            new Vector2(1, 0),
+            new Vector2(-1, 0)
+};
+        public static Vector2[] VectorDirections8 = new Vector2[8]
+        {
+            new Vector2(0, 1),
+            new Vector2(0, -1),
+            new Vector2(1, 0),
+            new Vector2(-1, 0),
+
+            new Vector2(1, 1),
+            new Vector2(1, -1),
+            new Vector2(-1, 1),
+            new Vector2(-1, -1)
+        };
+
+
+        public static Vector2 ReturnRandomDirection4()
+        {
+            return VectorDirections4[UnityEngine.Random.Range(0, VectorDirections4.Length)];  //Length e "-1" EKLEME SONRA GELMIYO
+        }
+        public static Vector2 ReturnRandomDirection8()
+        {
+            return VectorDirections8[UnityEngine.Random.Range(0, VectorDirections8.Length)];
+        }
+
+
     }
 
 }

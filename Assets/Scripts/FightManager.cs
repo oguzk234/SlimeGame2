@@ -7,7 +7,6 @@ public class FightManager : MonoBehaviour
     public static FightManager Instance;
     [SerializeField] private Vector2 FightCamLoc;
 
-
     public Fight1Dodge fg1;
 
     public GameObject FightScene;
@@ -17,6 +16,20 @@ public class FightManager : MonoBehaviour
     [Header("Fight1ReferencesForManager")]
     public GameObject MCFight1Dodge;
     */
+
+    [Header("GeneralFight1DodgeSettings")]
+    public float F1DStartingTime;
+    public float F1DDamageTakeCDMax;
+    public float F1DTimeBeforeTakeDamageAfterAttackSpawned;  //ESKI
+    public float F1DTimePercentBeforeTakeDamageAfterAttackSpawned;
+    public float EnemyAttackHitPercent;
+    public Vector2 AttackAnimUp;
+    public Vector2 AttackAnimDown;
+    public Vector2 AttackAnimRight;
+    public Vector2 AttackAnimLeft;
+    public AudioSource audioSourceTakeDamage;
+
+
 
 
     private void Awake()
@@ -33,6 +46,8 @@ public class FightManager : MonoBehaviour
     }
     public void StartFight1Dodge(Fight1Dodge fight)
     {
+        PlayerStats.Instance.SetOpenWorldAction(false);
+
         CameraFollow.FollowingPlayer = false;
         CameraFollow.CamObj.transform.position = new Vector3(FightCamLoc.x, FightCamLoc.y, CameraFollow.CamObj.transform.position.z);
 
@@ -54,6 +69,26 @@ public class Fight
 [System.Serializable]
 public class Fight1Dodge : Fight
 {
+    public int enemyAttackMaxCombo;
+    public int enemyAttackMaxComboRange;
+    public float enemyAttackCDBase;
+    public float enemyAttackCDRange;
+    public float enemyAttackCD
+    {
+        get { return OguzLib.Others.GetRandomNumber(enemyAttackCDBase, enemyAttackCDRange); }
+    }
+
+    public float enemyAttackTime = 0.2f;
+
+    public int HP;
+    public int DamageRandomExtra;
+    public int DamageBase;
+    public int Damage
+    {
+        get { return Random.Range(DamageBase - DamageRandomExtra, DamageBase + DamageRandomExtra); }
+    }
+
+
     public Fight1Dodge()
     {
 
@@ -69,14 +104,6 @@ public class Fight1Dodge : Fight
 public class Enemy
 {
     public Sprite sprite;
-
-    public int HP;
-    public int DamageRandomExtra;
-    public int DamageBase;
-    public int Damage
-    {
-        get { return Random.Range(DamageBase - DamageRandomExtra, DamageBase + DamageRandomExtra); }
-    }
 
 
 
