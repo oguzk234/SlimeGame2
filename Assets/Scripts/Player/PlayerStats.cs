@@ -10,6 +10,14 @@ public class PlayerStats : MonoBehaviour
     public int MaxHealth;
     public int Health;
 
+    public int Damage
+    {
+        get
+        {
+            return Damage;
+        }
+    }
+
 
     private void Awake()
     {

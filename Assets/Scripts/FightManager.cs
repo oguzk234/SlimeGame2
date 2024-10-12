@@ -22,7 +22,7 @@ public class FightManager : MonoBehaviour
     public float F1DDamageTakeCDMax;
     public float F1DTimeBeforeTakeDamageAfterAttackSpawned;  //ESKI
     public float F1DTimePercentBeforeTakeDamageAfterAttackSpawned;
-    public float EnemyAttackHitPercent;
+    public float F1DEnemyAttackHitPercent;
     public Vector2 AttackAnimUp;
     public Vector2 AttackAnimDown;
     public Vector2 AttackAnimRight;
@@ -55,6 +55,13 @@ public class FightManager : MonoBehaviour
         fight1DodgeManager.Initialize(fight);
     }
 
+    public void FinishFight1Dodge(Fight1DodgeManager fightManager)
+    {
+        CameraFollow.FollowingPlayer = true;
+        PlayerStats.Instance.SetOpenWorldAction(true);
+        Destroy(fightManager.gameObject);
+    }
+
 
 }
 
@@ -69,13 +76,20 @@ public class Fight
 [System.Serializable]
 public class Fight1Dodge : Fight
 {
-    public int enemyAttackMaxCombo;
+    public int enemyAttackMaxComboBase;
     public int enemyAttackMaxComboRange;
+    public int enemyAttackCombo
+    {
+        get
+        {
+            return OguzLib.Others.GetRandomIntWithOffset(enemyAttackMaxComboBase, enemyAttackMaxComboRange);
+        }
+    }
     public float enemyAttackCDBase;
     public float enemyAttackCDRange;
     public float enemyAttackCD
     {
-        get { return OguzLib.Others.GetRandomNumber(enemyAttackCDBase, enemyAttackCDRange); }
+        get { return OguzLib.Others.GetRandomFloatWithOffset(enemyAttackCDBase, enemyAttackCDRange); }
     }
 
     public float enemyAttackTime = 0.2f;
@@ -87,6 +101,10 @@ public class Fight1Dodge : Fight
     {
         get { return Random.Range(DamageBase - DamageRandomExtra, DamageBase + DamageRandomExtra); }
     }
+
+    public int MaxAttackCount = 3;
+
+    public float PlayerAttackTime = 3f;
 
 
     public Fight1Dodge()

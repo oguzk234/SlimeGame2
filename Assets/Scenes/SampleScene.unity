@@ -3345,20 +3345,23 @@ MonoBehaviour:
   fg1:
     enemy:
       sprite: {fileID: 21300000, guid: c8736132e31142d429535411a55641ad, type: 3}
-    enemyAttackMaxCombo: 0
-    enemyAttackMaxComboRange: 0
-    enemyAttackCDBase: 1
-    enemyAttackCDRange: 0
-    enemyAttackTime: 0.9
+    enemyAttackMaxComboBase: 4
+    enemyAttackMaxComboRange: 2
+    enemyAttackCDBase: 0.9
+    enemyAttackCDRange: 0.2
+    enemyAttackTime: 0.8
     HP: 0
     DamageRandomExtra: 0
     DamageBase: 0
+    MaxAttackCount: 3
+    PlayerAttackTime: 99
   FightScene: {fileID: 648206993}
   Fight1DodgeManagerPrefab: {fileID: 4159675672055656793, guid: f0daea29fcace4848b69d5d3d7d0e734, type: 3}
   F1DStartingTime: 0
   F1DDamageTakeCDMax: 0.8
   F1DTimeBeforeTakeDamageAfterAttackSpawned: 0.35
-  F1DTimePercentBeforeTakeDamageAfterAttackSpawned: 0.3
+  F1DTimePercentBeforeTakeDamageAfterAttackSpawned: 0.4
+  F1DEnemyAttackHitPercent: 0.6
   AttackAnimUp: {x: -3, y: 0.5}
   AttackAnimDown: {x: -3, y: -7.5}
   AttackAnimRight: {x: 2, y: -5}

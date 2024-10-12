@@ -49,10 +49,44 @@ namespace OguzLib
             return randomElements;
         }
 
-        public static float GetRandomNumber(float ValueBase,float ValueMaxRandomOffset)
+        public static float GetRandomFloatWithOffset(float ValueBase,float ValueMaxRandomOffset) //Balancer sagdaki sayiyinin çýkma ihtimalini düzeltmek için  //BALANCERA GEREK YOK SILINDI
         {
             return UnityEngine.Random.Range(ValueBase - ValueMaxRandomOffset, ValueBase + ValueMaxRandomOffset);
         }
+
+        public static int GetRandomIntWithOffset(int ValueBase, int ValueMaxRandomOffset)
+        {
+            return UnityEngine.Random.Range(ValueBase - ValueMaxRandomOffset, ValueBase + ValueMaxRandomOffset + 1);
+        }
+
+        public static float CalculatePercentage(float lowerLimit, float upperLimit, float value)
+        {
+            // Aralýk hesapla
+            float range = upperLimit - lowerLimit;
+
+            // Verilen sayýnýn aralýk içindeki uzaklýðýný bul
+            float distance = value - lowerLimit;
+
+            // Yüzdeyi hesapla
+            float percentage = (distance / range) * 100;
+
+            return percentage;
+        }
+
+        public static float InverseGrow(float x)
+        {
+            // x sýfýra yaklaþtýkça sonuç artmalý.
+            // Küçük x deðerleri için daha büyük sonuç döndürmek için ters orantý kullanýyoruz.
+
+            if (x == 0) // x sýfýrsa sonsuz olur, bu durumda özel bir durum belirtebiliriz.
+            {
+                Debug.LogError("x sýfýr olamaz!");
+                return float.MaxValue; // veya baþka bir özel deðer dönebilirsiniz.
+            }
+
+            return 1 / x; // x küçüldükçe sonuç büyüyecek
+        }
+
 
     }
 
@@ -180,6 +214,24 @@ namespace OguzLib
         public static Vector2 ReturnRandomDirection8()
         {
             return VectorDirections8[UnityEngine.Random.Range(0, VectorDirections8.Length)];
+        }
+        
+        public static Vector2[] ReturnRandomDirections4(int numberOfVectors)
+        {
+            Vector2[] vectors = new Vector2[numberOfVectors];
+            List<Vector2> vectorsAll4 = new List<Vector2>();
+
+            foreach(Vector2 vec2 in VectorDirections4) { vectorsAll4.Add(vec2); }
+
+            for (int i = 0; i < numberOfVectors; i++)
+            {
+                Vector2 vectorToAdd = vectorsAll4[UnityEngine.Random.Range(0, vectorsAll4.Count)];
+                vectorsAll4.Remove(vectorToAdd);
+                vectors[i] = vectorToAdd;
+            }
+
+            return vectors;
+
         }
 
 
