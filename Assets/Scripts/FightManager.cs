@@ -5,7 +5,7 @@ using UnityEngine;
 public class FightManager : MonoBehaviour
 {
     public static FightManager Instance;
-    [SerializeField] private Vector2 FightCamLoc;
+    //[SerializeField] private Vector2 FightCamLoc;
 
     public Fight1Dodge fg1;
 
@@ -28,6 +28,9 @@ public class FightManager : MonoBehaviour
     public Vector2 AttackAnimRight;
     public Vector2 AttackAnimLeft;
     public AudioSource audioSourceTakeDamage;
+    public GameObject DamageTextPrefab;
+    public AnimationCurve DamageTextCurve;
+    public AnimationCurve DamageTextFadeOutCurve;
 
 
 
@@ -49,7 +52,7 @@ public class FightManager : MonoBehaviour
         PlayerStats.Instance.SetOpenWorldAction(false);
 
         CameraFollow.FollowingPlayer = false;
-        CameraFollow.CamObj.transform.position = new Vector3(FightCamLoc.x, FightCamLoc.y, CameraFollow.CamObj.transform.position.z);
+        CameraFollow.CamObj.transform.position = new Vector3(FightScene.transform.position.x, FightScene.transform.position.y, CameraFollow.CamObj.transform.position.z);
 
         Fight1DodgeManager fight1DodgeManager = Instantiate(Fight1DodgeManagerPrefab,FightScene.transform).GetComponent<Fight1DodgeManager>();
         fight1DodgeManager.Initialize(fight);
@@ -107,12 +110,23 @@ public class Fight1Dodge : Fight
     public float PlayerAttackTime = 3f;
 
 
+    [Header("SpaceSpam Settings")]
+    public float ActiveSpaceSpamPowa;
+    public float ActiveSpaceSpamPowaPercentage;
+    public float SpaceSpamBasePowa = 0.1f;
+    public float SpaceSpamIncrementalPowa = 0.3f;
+    public float SpaceSpamMinVal = -4.5f;  //ZORLUGU ETKILIYOR ELLEME COK
+    public float SpaceSpamMaxVal = 5;
+    public float SpaceSpamDecrease = 9;
+    public float SpaceSpamYOffset = 0;
+
+
     public Fight1Dodge()
     {
 
     }
 
-
+    public Vector2 PlayerAttackPos;
 
 
 }

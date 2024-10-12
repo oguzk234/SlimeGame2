@@ -10,7 +10,7 @@ namespace OguzLib
         public static float LinearValueConvert(float value, float oldValueMin, float oldValueMax, float newValueMin, float newValueMax)
         {
             return ((newValueMax - newValueMin) / (oldValueMax - oldValueMin)) * (value - oldValueMin) + newValueMin;
-        }
+        }   //BUNUN YERINE    MATHF.LERP()    KULLANSANA AMK
 
         public static IEnumerator WaitAndExecute(float waitTime, Action action)
         {

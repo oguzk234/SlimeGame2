@@ -10,11 +10,13 @@ public class PlayerStats : MonoBehaviour
     public int MaxHealth;
     public int Health;
 
+    public int DamageBase;
+    public int DamageRandomOffset;
     public int Damage
     {
         get
         {
-            return Damage;
+            return OguzLib.Others.GetRandomIntWithOffset(DamageBase, DamageRandomOffset);
         }
     }
 

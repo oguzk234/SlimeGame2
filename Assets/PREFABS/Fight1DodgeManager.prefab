@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6077060712268439421}
+  m_Father: {fileID: 3260548478533065731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2171294232690429653
 SpriteRenderer:
@@ -246,6 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6077060712268439421}
   - component: {fileID: 4718494108802066667}
+  - component: {fileID: 166198349646752053}
   m_Layer: 0
   m_Name: Fight1DodgeManager
   m_TagString: Untagged
@@ -266,8 +267,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5366898146954135609}
-  - {fileID: 103209570372170448}
+  - {fileID: 3260548478533065731}
+  - {fileID: 6563854291867079857}
   - {fileID: 4448885316074127747}
   - {fileID: 9156841759232960255}
   m_Father: {fileID: 0}
@@ -284,8 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab31c5af3a062204b9405d6b4bac283a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MCFight: {fileID: 697391594452652618}
-  EnemyFight: {fileID: 5790612717060120356}
+  MCFight: {fileID: 4679758385096261669}
+  EnemyFight: {fileID: 7048504145491308359}
   EnemyRenderer: {fileID: 2172614609345440}
   fight1Dodge:
     enemy:
@@ -300,6 +301,15 @@ MonoBehaviour:
     DamageBase: 5
     MaxAttackCount: 3
     PlayerAttackTime: 3
+    ActiveSpaceSpamPowa: 0
+    ActiveSpaceSpamPowaPercentage: 0
+    SpaceSpamBasePowa: 0.24
+    SpaceSpamIncrementalPowa: 0.3
+    SpaceSpamMinVal: -4
+    SpaceSpamMaxVal: 5
+    SpaceSpamDecrease: 9
+    SpaceSpamYOffset: 0
+    PlayerAttackPos: {x: 0, y: 0}
   AttackAnimPrefab: {fileID: 3458792895148115021, guid: 3e77368457f74894f86b1f5708e54205, type: 3}
   SpaceSpamObj: {fileID: 844839052895592669}
   dodgeTime: 0.9
@@ -350,20 +360,69 @@ MonoBehaviour:
     m_RotationOrder: 4
   DodgeRange: 4
   isDodging: 0
+  isGettingDodgeInput: 0
   fightManager: {fileID: 0}
   isFightStarted: 0
   DamageTakeCD: 0
   AttackColor1: {r: 0.01886791, g: 0.009344955, b: 0.009344955, a: 1}
   AttackColor2: {r: 1, g: 1, b: 1, a: 1}
   ActiveEnemyAttacks: []
-  ActiveSpaceSpamPowa: 0
-  ActiveSpaceSpamPowaPercentage: 0
-  SpaceSpamBasePowa: 0.2
-  SpaceSpamIncrementalPowa: 0.3
-  SpaceSpamMinVal: -4
-  SpaceSpamMaxVal: 5
-  SpaceSpamDecrease: 9
-  SpaceSpamYOffset: 0
+  BaseAnimator: {fileID: 166198349646752053}
+  meshProUGUI: {fileID: 0}
+--- !u!95 &166198349646752053
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4159675672055656793}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6befa4d0100c35d48868c2a32bdfb7ef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &4679758385096261669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3260548478533065731}
+  m_Layer: 0
+  m_Name: Fight-MC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3260548478533065731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679758385096261669}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5366898146954135609}
+  m_Father: {fileID: 6077060712268439421}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5790612717060120356
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +453,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6077060712268439421}
+  m_Father: {fileID: 6563854291867079857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2172614609345440
 SpriteRenderer:
@@ -442,9 +501,41 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 24, y: 13.5}
+  m_Size: {x: 8.75, y: 10}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7048504145491308359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6563854291867079857}
+  m_Layer: 0
+  m_Name: Fight-EnemyTop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6563854291867079857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048504145491308359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 103209570372170448}
+  m_Father: {fileID: 6077060712268439421}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

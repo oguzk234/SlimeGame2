@@ -22,6 +22,7 @@ public class Fight1DodgeManager : MonoBehaviour
     public float DodgeRange;
     public bool isDodging;
     public Coroutine oldDodgeCoroutine;
+    public bool isGettingDodgeInput;
 
 
     [Header("General Settings")]
@@ -33,17 +34,7 @@ public class Fight1DodgeManager : MonoBehaviour
 
     [Header("EnemySettings")]
     public List<Vector2> ActiveEnemyAttacks = new List<Vector2>();
-
-    [Header("SpaceSpam Settings")]
-    public float ActiveSpaceSpamPowa;
-    public float ActiveSpaceSpamPowaPercentage;
-    public float SpaceSpamBasePowa = 0.1f;
-    public float SpaceSpamIncrementalPowa = 0.3f;
-    public float SpaceSpamMinVal = -4.5f;  //ZORLUGU ETKILIYOR ELLEME COK
-    public float SpaceSpamMaxVal = 5;
-    public float SpaceSpamDecrease = 9;
-    public float SpaceSpamYOffset = 0;
-
+    public Animator BaseAnimator;
 
 
 
@@ -52,7 +43,7 @@ public class Fight1DodgeManager : MonoBehaviour
     {
         //MCFight = FightManager.Instance.MCFight1Dodge;
         fightManager = FightManager.Instance;
-        StartFight();
+        //StartFight();
 
     }
 
@@ -60,9 +51,22 @@ public class Fight1DodgeManager : MonoBehaviour
     {
         fight1Dodge = f1d;
 
+        EnemyRenderer.sprite = fight1Dodge.enemy.sprite;
+
         isFightStarted = true;
 
-        EnemyRenderer.sprite = fight1Dodge.enemy.sprite;
+        StartCoroutine(BeforeStart(1.1f));
+    }
+    
+    private IEnumerator BeforeStart(float waitTime)
+    {
+        BaseAnimator.Play("F1DodgeEntryAnim");
+
+        yield return new WaitForSecondsRealtime(waitTime);
+
+        isGettingDodgeInput = true;
+        isFightStarted = true;
+        StartFight();
     }
 
     private void Update()
@@ -81,7 +85,7 @@ public class Fight1DodgeManager : MonoBehaviour
 
 
                     DamageTakeCD = fightManager.F1DDamageTakeCDMax;
-                    print("HASAR ALINDI  ==  ActýveDodgeDir = " + ActiveDodgeDir + "  Saldiriliar : " + ActiveEnemyAttackDebug());
+                    //print("HASAR ALINDI  ==  ActýveDodgeDir = " + ActiveDodgeDir + "  Saldiriliar : " + ActiveEnemyAttackDebug());
                     fightManager.audioSourceTakeDamage.Play();
                 }
                 else
@@ -149,37 +153,86 @@ public class Fight1DodgeManager : MonoBehaviour
         float SpaceSpamY = 0f;
 
         SpaceSpamObj.SetActive(true);
+        isGettingDodgeInput = false;
+
         while(elapseTime < fight1Dodge.PlayerAttackTime)
         {
             elapseTime += Time.deltaTime;
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SpaceSpamY += -((Mathf.Sqrt(Mathf.Abs((SpaceSpamY - SpaceSpamMinVal) * SpaceSpamIncrementalPowa))) + SpaceSpamBasePowa);
-                print(SpaceSpamY);
+                SpaceSpamY += -((Mathf.Sqrt(Mathf.Abs((SpaceSpamY - fight1Dodge.SpaceSpamMinVal) * fight1Dodge.SpaceSpamIncrementalPowa))) + fight1Dodge.SpaceSpamBasePowa);
+                //print(SpaceSpamY);
             }
             else
             {
-                SpaceSpamY += Time.deltaTime * SpaceSpamDecrease;
-                SpaceSpamY = Mathf.Clamp(SpaceSpamY, SpaceSpamMinVal, SpaceSpamMaxVal);
+                SpaceSpamY += Time.deltaTime * fight1Dodge.SpaceSpamDecrease;
+                SpaceSpamY = Mathf.Clamp(SpaceSpamY, fight1Dodge.SpaceSpamMinVal, fight1Dodge.SpaceSpamMaxVal);
             }
 
-            SpaceSpamObj.transform.localPosition = new Vector3(0, SpaceSpamY+SpaceSpamYOffset, 0);
+            SpaceSpamObj.transform.localPosition = new Vector3(0, SpaceSpamY+ fight1Dodge.SpaceSpamYOffset, 0);
             BlockData.MakePixelPerfectStatic(SpaceSpamObj.transform);
 
-            ActiveSpaceSpamPowa = SpaceSpamY;
+            fight1Dodge.ActiveSpaceSpamPowa = SpaceSpamY;
             //ActiveSpaceSpamPowaPercentage = OguzLib.Others.CalculatePercentage(SpaceSpamMinVal, SpaceSpamMaxVal, SpaceSpamY);
-            ActiveSpaceSpamPowaPercentage = Mathf.Abs(100-OguzLib.Others.CalculatePercentage(SpaceSpamMinVal, SpaceSpamMaxVal, SpaceSpamY));
+            fight1Dodge.ActiveSpaceSpamPowaPercentage = Mathf.Abs(100-OguzLib.Others.CalculatePercentage(fight1Dodge.SpaceSpamMinVal,fight1Dodge.SpaceSpamMaxVal, SpaceSpamY));
             yield return null;
         }
 
+        yield return new WaitForSecondsRealtime(0.31f);
+        SpaceSpamObj.SetActive(false);
+        fightManager.audioSourceTakeDamage.PlayDelayed(0.45f);
 
-        fight1Dodge.HP -= PlayerStats.Instance.Damage;
+
+
+        int damageToHit = (int)(PlayerStats.Instance.Damage * fight1Dodge.ActiveSpaceSpamPowaPercentage) / 10;
+        fight1Dodge.HP -= damageToHit;
+        print(damageToHit + "  KADAR HASAR DUSMANA VURULDU");
+
+        Animator attackAnimFX = Instantiate(AttackAnimPrefab, this.transform).GetComponent<Animator>();
+        attackAnimFX.gameObject.transform.localPosition = fight1Dodge.PlayerAttackPos;
+
+
+        yield return new WaitForSecondsRealtime(0.4f);
+        BaseAnimator.Play("F1DodgeEnemyDamageAnim",0,0);
+        StartCoroutine(SpawnDamageText(damageToHit));
+
+        yield return new WaitForSecondsRealtime(1.2f);
+        Destroy(attackAnimFX.gameObject);
+        isGettingDodgeInput = true;
         //ANIMASYON EKLICEM DUSMANA HASAR YEMESI ICIN
 
+        yield return new WaitForSecondsRealtime(0.4f);
 
-        SpaceSpamObj.SetActive(false);
     }
+
+    private IEnumerator SpawnDamageText(int damag)
+    {
+        TMPro.TextMeshPro text = Instantiate(fightManager.DamageTextPrefab,this.transform).GetComponent<TMPro.TextMeshPro>();
+        text.sortingOrder = 950;
+        text.gameObject.GetComponent<RectTransform>().localPosition = fight1Dodge.PlayerAttackPos;
+        text.text = "-" + damag.ToString();
+
+        float textMoveTime = 3.2f;
+        float textAlpha = 1f;
+        float elapsedTime = 0f;
+        RectTransform rectTransform = text.GetComponent<RectTransform>();
+        while(elapsedTime < textMoveTime)
+        {
+            elapsedTime += Time.deltaTime;
+            rectTransform.localPosition = new Vector2(rectTransform.localPosition.x,fightManager.DamageTextCurve.Evaluate(elapsedTime / textMoveTime)*4);
+
+            //textAlpha = Mathf.Lerp(1f, 0f, elapsedTime / textMoveTime);
+            textAlpha = Mathf.Lerp(1f, 0f, fightManager.DamageTextCurve.Evaluate(elapsedTime / textMoveTime));
+            text.color = new Color(text.color.r, text.color.g, text.color.b, textAlpha);
+            yield return null;
+        }
+
+        Destroy(text.gameObject);
+
+    }
+
+
 
     #region SingleAttack
     private void EnemySingleAttack()
@@ -353,6 +406,8 @@ public class Fight1DodgeManager : MonoBehaviour
 
     private void DodgeInput()
     {
+        if(!isGettingDodgeInput) { return; }
+
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Dodge(Vector2.left);
