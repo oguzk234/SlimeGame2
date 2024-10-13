@@ -8,6 +8,7 @@ public class Fight1DodgeManager : MonoBehaviour
     public GameObject MCFight;
     public GameObject EnemyFight;
     public SpriteRenderer EnemyRenderer;
+    public SpriteRenderer MCRenderer;
     public Fight1Dodge fight1Dodge;
     public GameObject AttackAnimPrefab;
     public GameObject SpaceSpamObj;
@@ -57,7 +58,7 @@ public class Fight1DodgeManager : MonoBehaviour
 
         isFightStarted = true;
 
-        StartCoroutine(BeforeStart(1.1f));
+        StartCoroutine(BeforeStart(2f));
     }
     
     private IEnumerator BeforeStart(float waitTime)
@@ -84,11 +85,11 @@ public class Fight1DodgeManager : MonoBehaviour
                 if (DamageTakeCD < 0)
                 {
                     PlayerStats.Instance.Health -= fight1Dodge.Damage;
-
-
                     DamageTakeCD = fightManager.F1DDamageTakeCDMax;
                     //print("HASAR ALINDI  ==  ActýveDodgeDir = " + ActiveDodgeDir + "  Saldiriliar : " + ActiveEnemyAttackDebug());
                     fightManager.audioSourceTakeDamage.Play();
+                    StopCoroutine(PlayerDamageAnimation());
+                    StartCoroutine(PlayerDamageAnimation());
                 }
                 else
                 {
@@ -143,11 +144,52 @@ public class Fight1DodgeManager : MonoBehaviour
             }
 
             //yield return new WaitUntil(() => isDodging)
-            yield return PlayerAttackWait(); 
+            isGettingDodgeInput = false;
+
+            yield return PlayerAttackWait();
+            //yield return F1DialogManager.Instance.ReadF1dTalkSetCoroutine(F1DialogManager.Instance.DebugTalks);
+
+            List<F1DTalkLine> HpTalksToTalk = fight1Dodge.toDoInFight.GetHpTalks(fight1Dodge.HpPercentage);
+            if(HpTalksToTalk != null && HpTalksToTalk.Count > 0)
+            {
+                F1DialogManager.Instance.ReadF1dTalkSet(HpTalksToTalk);
+                yield return new WaitForSecondsRealtime(0.01f);
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+                yield return new WaitForSecondsRealtime(0.4f);
+            }
+
+            isGettingDodgeInput = true;
+
+            yield return new WaitForSecondsRealtime(0.4f);
 
         }
 
     }
+
+    private IEnumerator PlayerDamageAnimation(float fadeTime = 0.1f,int fadeCount = 4)
+    {
+        for (int i = 0; i < fadeCount; i++)
+        {
+            yield return Fade(fadeTime, 0f, MCRenderer);
+            yield return Fade(fadeTime, 1f, MCRenderer);
+        }
+    }
+    private IEnumerator Fade(float fadeTime,float fadeValue,SpriteRenderer spriteRenderer)
+    {
+        float elapsedTime = 0f;
+        float startAlpha = spriteRenderer.color.a;
+
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, Mathf.Lerp(startAlpha, fadeValue, elapsedTime / fadeTime));
+            yield return null;
+        }
+
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, fadeValue);
+    }
+
+
 
     private IEnumerator PlayerAttackWait()
     {
@@ -155,7 +197,7 @@ public class Fight1DodgeManager : MonoBehaviour
         float SpaceSpamY = 0f;
 
         SpaceSpamObj.SetActive(true);
-        isGettingDodgeInput = false;
+        //isGettingDodgeInput = false;
 
         while(elapseTime < fight1Dodge.PlayerAttackTime)
         {
@@ -189,7 +231,10 @@ public class Fight1DodgeManager : MonoBehaviour
 
         int damageToHit = (int)(PlayerStats.Instance.Damage * fight1Dodge.ActiveSpaceSpamPowaPercentage) / 10;
         fight1Dodge.HP -= damageToHit;
-        print(damageToHit + "  KADAR HASAR DUSMANA VURULDU");
+
+
+
+        //print(damageToHit + "  KADAR HASAR DUSMANA VURULDU");
 
         Animator attackAnimFX = Instantiate(AttackAnimPrefab, this.transform).GetComponent<Animator>();
         attackAnimFX.gameObject.transform.localPosition = fight1Dodge.PlayerAttackPos;
@@ -218,10 +263,14 @@ public class Fight1DodgeManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1.2f);
         Destroy(attackAnimFX.gameObject);
-        isGettingDodgeInput = true;
+        //isGettingDodgeInput = true;
         //ANIMASYON EKLICEM DUSMANA HASAR YEMESI ICIN
 
-        yield return new WaitForSecondsRealtime(0.4f);
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        if (fight1Dodge.HP <= 0)
+            fightManager.FinishFight1Dodge(this);
+
 
     }
 

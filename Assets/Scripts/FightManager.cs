@@ -43,11 +43,17 @@ public class FightManager : MonoBehaviour
 
     private void Update()
     {
+        //DebugZZZ();
+    }
+    private void DebugZZZ()
+    {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             StartFight1Dodge(fg1);
         }
     }
+
+
     public void StartFight1Dodge(Fight1Dodge fight)
     {
         PlayerStats.Instance.SetOpenWorldAction(false);
@@ -102,6 +108,14 @@ public class Fight1Dodge : Fight
 
     public int MaxHP = 100;
     public int HP = 100;
+    public float HpPercentage
+    {
+        get
+        {
+            return (float)HP / MaxHP * 100f;
+        }
+    }
+
     public int DamageRandomExtra = 5;
     public int DamageBase = 25;
     public int Damage
@@ -134,6 +148,8 @@ public class Fight1Dodge : Fight
 
     //public TalksWithHpRatios talksWithHpRatios;
 
+    public ToDoInFight toDoInFight;
+
 }
 
 
@@ -142,8 +158,39 @@ public class Enemy
 {
     public Sprite sprite;
 
+}
+
+[System.Serializable]
+public class ToDoInFight
+{
+    public List<F1DTalkLine> HpTalkList;
+    public List<int> HpIntList;  //0 ile 100 arasi girilecek
 
 
+    public List<F1DTalkLine> GetHpTalks(float enemyHpPercentage)
+    {
+        Debug.Log(enemyHpPercentage);
+
+        List<F1DTalkLine> talksToReturn = new List<F1DTalkLine>();
+        if (HpTalkList.Count < 1) { Debug.LogWarning("Cekilecek Veri Yok"); return null; }
+
+        for (int i = 0; i < HpTalkList.Count; i++)
+        {
+            if (enemyHpPercentage < HpIntList[i])
+            {
+                talksToReturn.Add(HpTalkList[i]);
+
+                HpTalkList.RemoveAt(i);
+                HpIntList.RemoveAt(i);
+                i -= 1;
+            }
+
+
+        }
+
+        return talksToReturn;
+
+    }
 
 }
 

@@ -16,6 +16,7 @@ public class DialogManager : MonoBehaviour
     public Image MessageBoxImage;
     public Image MessageBoxExtraImage;
     public TextMeshProUGUI MessageBoxText;
+    public float DefaultReadingTime;
 
 
 
@@ -125,7 +126,7 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-        DialogDebug();
+        //DialogDebug();
     }
     private void DialogDebug()
     {
@@ -210,10 +211,13 @@ public class DialogManager : MonoBehaviour
         MessageBoxExtraImage.sprite = talkLine.Persona.BoxExtraSprite;
         //if(talkLine.Persona.BoxExtraSprite != null) { MessageBoxExtraImage.sprite = talkLine.Persona.BoxExtraSprite; }
 
-        MessageBoxText.text = talkLine.Text;
+
+        //MessageBoxText.text = talkLine.Text;
+        StartTyping(talkLine.Text, talkLine.ReadingTime, MessageBoxText);
         MessageBoxText.color = talkLine.TextColor;
         MessageBoxArea.color = talkLine.BoxColor;
         MessageBoxText.font = talkLine.FontAsset;
+
 
         if (talkLine.Direction)
         {
@@ -246,6 +250,8 @@ public class DialogManager : MonoBehaviour
 
     public void StartTyping(string fullText, float duration, TextMeshProUGUI textUI = null, TextMeshPro text = null)
     {
+        if(duration == 0) { duration = DefaultReadingTime; }
+
         if (typingCoroutine != null)
         {
             StopCoroutine(typingCoroutine);
@@ -260,6 +266,8 @@ public class DialogManager : MonoBehaviour
     }       // Yazýyý yüzdelik olarak yazan coroutine
     private IEnumerator TypeTextUI(string fullText, float duration, TextMeshProUGUI textUI)
     {
+        if(duration == -1) { textUI.text = fullText; yield break; }
+
         textUI.text = "";
         int totalCharacters = fullText.Length;
         float timePerCharacter = duration / totalCharacters;
@@ -277,6 +285,8 @@ public class DialogManager : MonoBehaviour
     }
     private IEnumerator TypeText(string fullText, float duration, TextMeshPro text)
     {
+        if (duration == -1) { text.text = fullText; yield break; }
+
         text.text = "";
         int totalCharacters = fullText.Length;
         float timePerCharacter = duration / totalCharacters;
@@ -308,6 +318,7 @@ public class TalkLine     ////////BURASI VERI ISLEMIYOOOO
     public Color BoxColor;
     public Color TextColor;
     public TMP_FontAsset FontAsset;
+    public float ReadingTime; //INITIALZE EDILMIYOR EDITORDE AYARLANICAK  ====  0 Ise Otomatik olarak okunurken deðiþtirikecej
 
     public DialogManager.Persona DefaultPersona;
 
