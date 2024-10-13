@@ -11,6 +11,7 @@ public class Fight1DodgeManager : MonoBehaviour
     public Fight1Dodge fight1Dodge;
     public GameObject AttackAnimPrefab;
     public GameObject SpaceSpamObj;
+    public SpriteRenderer BgRenderer;
 
 
     [Header("Dodge Settings")]
@@ -31,11 +32,11 @@ public class Fight1DodgeManager : MonoBehaviour
     public float DamageTakeCD;
     public Color AttackColor1 = Color.white;
     public Color AttackColor2;
+    public bool ifNormalHpTalksDuringBattle = false;
 
     [Header("EnemySettings")]
     public List<Vector2> ActiveEnemyAttacks = new List<Vector2>();
     public Animator BaseAnimator;
-
 
 
 
@@ -52,6 +53,7 @@ public class Fight1DodgeManager : MonoBehaviour
         fight1Dodge = f1d;
 
         EnemyRenderer.sprite = fight1Dodge.enemy.sprite;
+        BgRenderer.sprite = fight1Dodge.BgSprite;
 
         isFightStarted = true;
 
@@ -197,6 +199,23 @@ public class Fight1DodgeManager : MonoBehaviour
         BaseAnimator.Play("F1DodgeEnemyDamageAnim",0,0);
         StartCoroutine(SpawnDamageText(damageToHit));
 
+        /*
+        List<List<TalkLine>> TalksToTalk = CheckEnemyHpForTalks();
+        if(TalksToTalk != null)
+        {
+            foreach (List<TalkLine> TalkWithHp in TalksToTalk)
+            {
+                yield return DialogManager.Instance.ReadTalkSetCoroutine(TalkWithHp);
+            }
+        }
+        */
+
+
+
+
+
+
+
         yield return new WaitForSecondsRealtime(1.2f);
         Destroy(attackAnimFX.gameObject);
         isGettingDodgeInput = true;
@@ -231,6 +250,33 @@ public class Fight1DodgeManager : MonoBehaviour
         Destroy(text.gameObject);
 
     }
+
+    /*
+    private List<List<TalkLine>> CheckEnemyHpForTalks()
+    {
+        float enemyHpPercent = ((float)fight1Dodge.HP / fight1Dodge.MaxHP) * 100;
+        print(enemyHpPercent + " = ENEMY HP PERCENT " +  fight1Dodge.HP +" + "+ fight1Dodge.MaxHP + " + "+ fight1Dodge.HP/fight1Dodge.MaxHP);
+
+        List<List<TalkLine>> talksToTalk = new List<List<TalkLine>>();
+
+        foreach(List<TalkLine> talkSet in fight1Dodge.talksWithHpRatios.GetAllHpTalks())
+        {
+            if(talkSet!= null)
+            { 
+
+                talksToTalk.Add(talkSet);
+            }
+        }
+
+
+
+        return talksToTalk;
+
+
+
+    }
+    */
+
 
 
 

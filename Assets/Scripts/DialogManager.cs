@@ -170,11 +170,11 @@ public class DialogManager : MonoBehaviour
 
 
 
-    public void ReadTalkSet(List<TalkLine> talkList)
+    public void ReadTalkSet(List<TalkLine> talkList)  //BUNA BASKA SEYLER EKLERSEN SICARSIN "F1D" DA
     {
         StartCoroutine(ReadTalkSetCoroutine(talkList));
     }
-    IEnumerator ReadTalkSetCoroutine(List<TalkLine> talkList)
+    public IEnumerator ReadTalkSetCoroutine(List<TalkLine> talkList)
     {
         isOnDialogue = true;
         PlayerMove.Instance.isMovable = false;
@@ -239,6 +239,63 @@ public class DialogManager : MonoBehaviour
     }
 
 
+    #region WritingAnimation
+
+
+    private Coroutine typingCoroutine;
+
+    public void StartTyping(string fullText, float duration, TextMeshProUGUI textUI = null, TextMeshPro text = null)
+    {
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+        if((textUI == null && text == null) ||(textUI != null && text != null))
+        {
+            Debug.LogWarning("HATALI TEXT GIRISI"); return;
+        }
+
+        if(textUI != null) { typingCoroutine = StartCoroutine(TypeTextUI(fullText, duration, textUI)); }
+        if(text != null) { typingCoroutine = StartCoroutine(TypeText(fullText, duration, text)); }
+    }       // Yazýyý yüzdelik olarak yazan coroutine
+    private IEnumerator TypeTextUI(string fullText, float duration, TextMeshProUGUI textUI)
+    {
+        textUI.text = "";
+        int totalCharacters = fullText.Length;
+        float timePerCharacter = duration / totalCharacters;
+
+        for (int i = 0; i <= totalCharacters; i++)
+        {
+            float percentage = (float)i / totalCharacters;
+            int charsToShow = Mathf.FloorToInt(percentage * totalCharacters);
+
+            textUI.text = fullText.Substring(0, charsToShow);
+            yield return new WaitForSeconds(timePerCharacter);
+        }
+
+        textUI.text = fullText;
+    }
+    private IEnumerator TypeText(string fullText, float duration, TextMeshPro text)
+    {
+        text.text = "";
+        int totalCharacters = fullText.Length;
+        float timePerCharacter = duration / totalCharacters;
+
+        for (int i = 0; i <= totalCharacters; i++)
+        {
+            float percentage = (float)i / totalCharacters;
+            int charsToShow = Mathf.FloorToInt(percentage * totalCharacters);
+
+            text.text = fullText.Substring(0, charsToShow);
+            yield return new WaitForSeconds(timePerCharacter);
+        }
+
+        text.text = fullText;
+    }
+
+    #endregion
+
+
 }
 
 
@@ -286,8 +343,8 @@ public class TalkLine     ////////BURASI VERI ISLEMIYOOOO
         if(FontAsset == null) { FontAsset = Persona.FontAsset; }
     }
 
-
 }
+
 
 //[System.Serializable]
 public class DialogPersona
@@ -370,4 +427,5 @@ public class DialogPersona
     }
 
 }
+
 

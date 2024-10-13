@@ -88,7 +88,22 @@ namespace OguzLib
         }
 
 
-    }
+
+        public static string GetNumberFromVariableName(string variableName)
+        {
+        // Regex ile sayýsal karakterleri bul
+        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(variableName, @"\d+");
+
+        if (match.Success)
+        {
+            return match.Value; // Bulunan sayýyý string olarak döner
+        }
+
+        return null; // Eðer sayý bulunmazsa null döner
+        }
+
+
+}
 
     public static class SubObject
     {

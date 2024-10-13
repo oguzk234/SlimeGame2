@@ -173,10 +173,16 @@ public class PlayerCollision : MonoBehaviour
         
         foreach(RaycastHit2D ray in hitList)
         {
+            /*
             if (ray.collider.gameObject.TryGetComponent(out Teleporter teleporter))
             {
                 if (teleporter.neededInteraction == false) { teleporter.TeleportNoInteraction(); }
                 //print("TP BULUNDU");  //CALISIYOR
+            }
+            */
+            if(ray.collider.gameObject.TryGetComponent(out IInteractableAuto interactableAuto))
+            {
+                interactableAuto.InteractAuto();
             }
         }
 

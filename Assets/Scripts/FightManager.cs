@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 public class FightManager : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class FightManager : MonoBehaviour
     public AudioSource audioSourceTakeDamage;
     public GameObject DamageTextPrefab;
     public AnimationCurve DamageTextCurve;
-    public AnimationCurve DamageTextFadeOutCurve;
+    //public AnimationCurve DamageTextFadeOutCurve;
 
 
 
@@ -79,8 +80,10 @@ public class Fight
 [System.Serializable]
 public class Fight1Dodge : Fight
 {
-    public int enemyAttackMaxComboBase;
-    public int enemyAttackMaxComboRange;
+    public Sprite BgSprite;
+
+    public int enemyAttackMaxComboBase = 6;
+    public int enemyAttackMaxComboRange = 2;
     public int enemyAttackCombo
     {
         get
@@ -88,18 +91,19 @@ public class Fight1Dodge : Fight
             return OguzLib.Others.GetRandomIntWithOffset(enemyAttackMaxComboBase, enemyAttackMaxComboRange);
         }
     }
-    public float enemyAttackCDBase;
-    public float enemyAttackCDRange;
+    public float enemyAttackCDBase = 0.9f;
+    public float enemyAttackCDRange = 0.2f;
     public float enemyAttackCD
     {
         get { return OguzLib.Others.GetRandomFloatWithOffset(enemyAttackCDBase, enemyAttackCDRange); }
     }
 
-    public float enemyAttackTime = 0.2f;
+    public float enemyAttackTime = 0.8f;
 
-    public int HP;
-    public int DamageRandomExtra;
-    public int DamageBase;
+    public int MaxHP = 100;
+    public int HP = 100;
+    public int DamageRandomExtra = 5;
+    public int DamageBase = 25;
     public int Damage
     {
         get { return Random.Range(DamageBase - DamageRandomExtra, DamageBase + DamageRandomExtra); }
@@ -126,8 +130,9 @@ public class Fight1Dodge : Fight
 
     }
 
-    public Vector2 PlayerAttackPos;
+    public Vector2 PlayerAttackPos = new Vector2(8,1);
 
+    //public TalksWithHpRatios talksWithHpRatios;
 
 }
 
@@ -141,3 +146,42 @@ public class Enemy
 
 
 }
+
+/*
+[System.Serializable]
+public class TalksWithHpRatios
+{
+    public List<TalkLine> TalksBeforFight; //AYRI YERDE CALISIYOR ACIK
+    public List<TalkLine> TalksAfterFight; //BU DA AYNI
+
+    public List<TalkLine> talks1;
+    public List<TalkLine> talks5;
+    public List<TalkLine> talks10;
+    public List<TalkLine> talks15;
+    public List<TalkLine> talks20;
+    public List<TalkLine> talks25;
+    public List<TalkLine> talks30;
+    public List<TalkLine> talks35;
+    public List<TalkLine> talks40;
+    public List<TalkLine> talks45;
+    public List<TalkLine> talks50;
+    public List<TalkLine> talks55;
+    public List<TalkLine> talks60;
+    public List<TalkLine> talks65;
+    public List<TalkLine> talks70;
+    public List<TalkLine> talks75;
+    public List<TalkLine> talks80;
+    public List<TalkLine> talks85;
+    public List<TalkLine> talks90;
+    public List<TalkLine> talks95;
+    public List<TalkLine> talks99;
+
+    public List<List<TalkLine>> GetAllHpTalks()
+    {
+        List<List<TalkLine>> talkListList = new List<List<TalkLine>> { talks1, talks5,talks10,talks15,talks20,talks25,talks30,talks35,talks40,talks45,talks50,talks55,talks60,talks65,talks70,talks75,talks80,talks85,talks90,talks95,talks99 };
+        return talkListList;
+
+    }
+
+}
+*/
