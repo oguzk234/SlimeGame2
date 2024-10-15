@@ -401,6 +401,8 @@ MonoBehaviour:
     toDoInFight:
       HpTalkList: []
       HpIntList: 
+    toDoAfterFight:
+      TalksAfterFight: []
   AttackAnimPrefab: {fileID: 3458792895148115021, guid: 3e77368457f74894f86b1f5708e54205, type: 3}
   SpaceSpamObj: {fileID: 844839052895592669}
   BgRenderer: {fileID: 6638723631467505155}
@@ -456,7 +458,7 @@ MonoBehaviour:
   fightManager: {fileID: 0}
   isFightStarted: 0
   DamageTakeCD: 0
-  AttackColor1: {r: 0.01886791, g: 0.009344955, b: 0.009344955, a: 1}
+  AttackColor1: {r: 1, g: 1, b: 1, a: 1}
   AttackColor2: {r: 1, g: 1, b: 1, a: 1}
   ifNormalHpTalksDuringBattle: 0
   ActiveEnemyAttacks: []

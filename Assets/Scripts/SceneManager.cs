@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneManager : MonoBehaviour
 {
     public static SceneManager Instance;
+    public Area ActiveArea;
 
     void Awake()
     {
@@ -13,8 +14,18 @@ public class SceneManager : MonoBehaviour
 
     public void ProceedArea(Area area)
     {
+        OnAreaChanged(ActiveArea, area);
+        ActiveArea = area;
+
         CameraFollow.ActiveMapLimits = area.mapLimits;
         PlayerMove.Instance.gameObject.transform.position = area.startLocation;
+    }
+
+
+    public void OnAreaChanged(Area oldArea, Area newArea)
+    {
+        oldArea.SetAreaComponentsActive(false);
+        newArea.SetAreaComponentsActive(true);
     }
 
 
@@ -30,10 +41,19 @@ public class Area
     public Vector2 startLocation;
     public SpriteRenderer Renderer;
     public Sprite NewSprite;
+    public List<Behaviour> AreaComponents;
 
     public void InitializeSpriteOverride()
     {
         if(Renderer != null && NewSprite != null) { Renderer.sprite = NewSprite; }
+    }
+
+    public void SetAreaComponentsActive(bool bol)
+    {
+        foreach(Behaviour behaviour in AreaComponents)
+        {
+            behaviour.enabled = bol;
+        }
     }
 
 

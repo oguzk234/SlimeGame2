@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acf48d173d81aa458ea9d0fc29cc5c2, type: 3}
+  m_Name: Thing
+  m_EditorClassIdentifier: 
+  activeThing: 1
+  fight1Dodge:
+    enemy:
+      sprite: {fileID: 0}
+    BgSprite: {fileID: 0}
+    enemyAttackMaxComboBase: 6
+    enemyAttackMaxComboRange: 2
+    enemyAttackCDBase: 0.9
+    enemyAttackCDRange: 0.2
+    enemyAttackTime: 0.8
+    MaxHP: 100
+    HP: 100
+    DamageRandomExtra: 5
+    DamageBase: 25
+    MaxAttackCount: 3
+    PlayerAttackTime: 3
+    ActiveSpaceSpamPowa: 0
+    ActiveSpaceSpamPowaPercentage: 0
+    SpaceSpamBasePowa: 0.1
+    SpaceSpamIncrementalPowa: 0.3
+    SpaceSpamMinVal: -4.5
+    SpaceSpamMaxVal: 5
+    SpaceSpamDecrease: 9
+    SpaceSpamYOffset: 0
+    PlayerAttackPos: {x: 8, y: 1}
+    toDoInFight:
+      BeforeFightTalkLines: []
+      HpTalkList: []
+      HpIntList: 
+    toDoAfterFight:
+      TalksAfterFight: []
+  talkLines:
+  - Text: 222
+    Direction: 0
+    BoxColor: {r: 0, g: 0, b: 0, a: 0}
+    TextColor: {r: 0, g: 0, b: 0, a: 0}
+    FontAsset: {fileID: 0}
+    ReadingTime: 0
+    DefaultPersona: 2
+  - Text: 31
+    Direction: 0
+    BoxColor: {r: 0, g: 0, b: 0, a: 0}
+    TextColor: {r: 0, g: 0, b: 0, a: 0}
+    FontAsset: {fileID: 0}
+    ReadingTime: 0
+    DefaultPersona: 6
+  - Text: THING
+    Direction: 0
+    BoxColor: {r: 0, g: 0, b: 0, a: 0}
+    TextColor: {r: 0, g: 0, b: 0, a: 0}
+    FontAsset: {fileID: 0}
+    ReadingTime: 0
+    DefaultPersona: 7

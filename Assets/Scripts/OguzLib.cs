@@ -9,7 +9,19 @@ namespace OguzLib
     {
         public static float LinearValueConvert(float value, float oldValueMin, float oldValueMax, float newValueMin, float newValueMax)
         {
-            return ((newValueMax - newValueMin) / (oldValueMax - oldValueMin)) * (value - oldValueMin) + newValueMin;
+            float oldRange = oldValueMax - oldValueMin;
+
+            // Eðer eski aralýk sýfýra eþitse, bölme hatasýndan kaçýnmak için alternatif bir sonuç döndürüyoruz
+            if (oldRange == 0)
+            {
+                // Eski aralýk sýfýrsa, tüm eski aralýktaki deðerler ayný olduðu için sabit bir deðer dönebiliriz
+                return newValueMin; // Ya da gerekliyse newValueMax döndürülebilir.
+            }
+
+            return ((newValueMax - newValueMin) / oldRange) * (value - oldValueMin) + newValueMin;
+
+
+            //return ((newValueMax - newValueMin) / (oldValueMax - oldValueMin)) * (value - oldValueMin) + newValueMin;     //ORJINAL
         }   //BUNUN YERINE    MATHF.LERP()    KULLANSANA AMK
 
         public static IEnumerator WaitAndExecute(float waitTime, Action action)

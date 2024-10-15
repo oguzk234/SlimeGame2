@@ -116,6 +116,15 @@ public class DialogManager : MonoBehaviour
     public DialogPersona.TalkBoxTextData MiddleTalkBoxTextData = new DialogPersona.TalkBoxTextData(960, 277, 1370, 320);
 
 
+
+
+    public event System.Action OnEnd;
+
+
+
+
+
+
     private void Awake()
     {
         Instance = this;
@@ -173,6 +182,7 @@ public class DialogManager : MonoBehaviour
 
     public void ReadTalkSet(List<TalkLine> talkList)  //BUNA BASKA SEYLER EKLERSEN SICARSIN "F1D" DA
     {
+        if(talkList == null) { return; }
         StartCoroutine(ReadTalkSetCoroutine(talkList));
     }
     public IEnumerator ReadTalkSetCoroutine(List<TalkLine> talkList)
@@ -190,6 +200,9 @@ public class DialogManager : MonoBehaviour
         PlayerMove.Instance.isMovable = true;
         isOnDialogue = false;
         MessageBox.SetActive(false);
+
+
+        OnEnd?.Invoke();
     }
 
 

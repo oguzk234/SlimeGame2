@@ -11,6 +11,8 @@ public class Talkable : MonoBehaviour, IInteractable
         DialogManager.Instance.ReadTalkSet(Talks);
     }
 
+
+    /*
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -18,5 +20,6 @@ public class Talkable : MonoBehaviour, IInteractable
             DialogManager.Instance.ReadTalkSet(Talks);
         }
     }
+    */
 
 }

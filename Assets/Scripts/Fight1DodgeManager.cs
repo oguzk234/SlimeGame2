@@ -40,6 +40,10 @@ public class Fight1DodgeManager : MonoBehaviour
     public Animator BaseAnimator;
 
 
+    public event System.Action OnEnd;
+
+
+
 
     private void Start()
     {
@@ -132,6 +136,10 @@ public class Fight1DodgeManager : MonoBehaviour
     private IEnumerator StartFightCoroutine()
     {
         yield return new WaitForSecondsRealtime(fightManager.F1DStartingTime);
+        
+        if(fight1Dodge.toDoInFight.BeforeFightTalkLines != null && fight1Dodge.toDoInFight.BeforeFightTalkLines.Count > 0)
+            { yield return F1DialogManager.Instance.ReadF1dTalkSetCoroutine(fight1Dodge.toDoInFight.BeforeFightTalkLines); yield return new WaitForSecondsRealtime(2.0f); }
+
         isFightStarted = true;
 
         while (isFightStarted)
@@ -150,17 +158,41 @@ public class Fight1DodgeManager : MonoBehaviour
             //yield return F1DialogManager.Instance.ReadF1dTalkSetCoroutine(F1DialogManager.Instance.DebugTalks);
 
             List<F1DTalkLine> HpTalksToTalk = fight1Dodge.toDoInFight.GetHpTalks(fight1Dodge.HpPercentage);
+
+            if(HpTalksToTalk != null) { print("KONUSMA SAYISI = " + HpTalksToTalk.Count); }
+
             if(HpTalksToTalk != null && HpTalksToTalk.Count > 0)
             {
-                F1DialogManager.Instance.ReadF1dTalkSet(HpTalksToTalk);
-                yield return new WaitForSecondsRealtime(0.01f);
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-                yield return new WaitForSecondsRealtime(0.4f);
+                yield return F1DialogManager.Instance.ReadF1dTalkSetCoroutine(HpTalksToTalk);
+                //F1DialogManager.Instance.ReadF1dTalkSet(HpTalksToTalk);
+                //yield return new WaitForSecondsRealtime(0.01f);
+                //yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+                //yield return new WaitForSecondsRealtime(0.4f);
             }
 
             isGettingDodgeInput = true;
 
             yield return new WaitForSecondsRealtime(0.4f);
+
+
+            if (fight1Dodge.HP <= 0)
+            {
+                GameObject DieFx = Instantiate(FightManager.Instance.DieFxPrefab, EnemyFight.transform);
+                DieFx.transform.localPosition = new Vector3(6, 2.5f, 0);
+
+                yield return new WaitForSecondsRealtime(1.2f);
+                StartCoroutine(Fade(2.4f, 0, EnemyRenderer));
+                StartCoroutine(Fade(2.4f, 0, DieFx.GetComponent<SpriteRenderer>()));
+
+                yield return new WaitForSecondsRealtime(3.6f);
+
+                //Destroy(DieFx);
+
+
+                fightManager.FinishFight1Dodge(this);
+                OnEnd();
+                Destroy(this.gameObject);
+            }
 
         }
 
@@ -267,10 +299,6 @@ public class Fight1DodgeManager : MonoBehaviour
         //ANIMASYON EKLICEM DUSMANA HASAR YEMESI ICIN
 
         yield return new WaitForSecondsRealtime(0.5f);
-
-        if (fight1Dodge.HP <= 0)
-            fightManager.FinishFight1Dodge(this);
-
 
     }
 

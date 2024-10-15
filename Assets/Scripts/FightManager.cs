@@ -31,7 +31,10 @@ public class FightManager : MonoBehaviour
     public AudioSource audioSourceTakeDamage;
     public GameObject DamageTextPrefab;
     public AnimationCurve DamageTextCurve;
+    public GameObject DieFxPrefab;
     //public AnimationCurve DamageTextFadeOutCurve;
+
+
 
 
 
@@ -54,7 +57,9 @@ public class FightManager : MonoBehaviour
     }
 
 
-    public void StartFight1Dodge(Fight1Dodge fight)
+
+#nullable enable
+    public Fight1DodgeManager? StartFight1Dodge(Fight1Dodge fight)
     {
         PlayerStats.Instance.SetOpenWorldAction(false);
 
@@ -63,13 +68,23 @@ public class FightManager : MonoBehaviour
 
         Fight1DodgeManager fight1DodgeManager = Instantiate(Fight1DodgeManagerPrefab,FightScene.transform).GetComponent<Fight1DodgeManager>();
         fight1DodgeManager.Initialize(fight);
+
+        return fight1DodgeManager;
     }
+#nullable disable
+
 
     public void FinishFight1Dodge(Fight1DodgeManager fightManager)
     {
         CameraFollow.FollowingPlayer = true;
         PlayerStats.Instance.SetOpenWorldAction(true);
-        Destroy(fightManager.gameObject);
+
+
+        List<TalkLine> talksAfterFight = fightManager.fight1Dodge.toDoAfterFight.TalksAfterFight;
+
+        //Destroy(fightManager.gameObject);
+
+        DialogManager.Instance.ReadTalkSet(talksAfterFight);
     }
 
 
@@ -80,7 +95,6 @@ public class FightManager : MonoBehaviour
 public class Fight
 {
     public Enemy enemy;
-
 }
 
 [System.Serializable]
@@ -149,6 +163,7 @@ public class Fight1Dodge : Fight
     //public TalksWithHpRatios talksWithHpRatios;
 
     public ToDoInFight toDoInFight;
+    public ToDoAfterFight toDoAfterFight;
 
 }
 
@@ -163,6 +178,7 @@ public class Enemy
 [System.Serializable]
 public class ToDoInFight
 {
+    public List<F1DTalkLine> BeforeFightTalkLines;
     public List<F1DTalkLine> HpTalkList;
     public List<int> HpIntList;  //0 ile 100 arasi girilecek
 
@@ -193,6 +209,14 @@ public class ToDoInFight
     }
 
 }
+
+
+[System.Serializable]
+public class ToDoAfterFight
+{
+    public List<TalkLine> TalksAfterFight;
+}
+
 
 /*
 [System.Serializable]
